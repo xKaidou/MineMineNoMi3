@@ -1,16 +1,16 @@
 package MineMineNoMi3.Entities;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.init.Blocks;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.EnderTeleportEvent;
+import MineMineNoMi3.Config;
 import MineMineNoMi3.Helper;
 import MineMineNoMi3.Utils.DatabaseEvents;
 import MineMineNoMi3.Utils.DatabaseParticles;
@@ -21,7 +21,7 @@ public class Projectile extends EntityThrowable
 {
 	
 	public int ticks, maxticks;
-	private EnumAbility proj;
+	public EnumAbility proj;
 	
 	public Projectile(World par1World)
 	{
@@ -42,8 +42,24 @@ public class Projectile extends EntityThrowable
 	{
 		super(par1World, par3EntityPlayer);
 		this.proj = proj;
-		this.ticks = proj.getEntityTicks();
+		if(proj.getEntityTicks() < 0)
+			this.ticks = proj.getEntityTicks() * -1;
+		else
+			this.ticks = proj.getEntityTicks();
 		this.maxticks = ticks;
+		if(this.proj != null && this.proj.getEntityAttr() != null)
+		{
+			for(int i = 0; i < this.proj.getEntityAttr().length; i++)
+			{
+				if(this.proj.getEntityAttr()[i].contains("speed_"))
+				{
+					int speed = Integer.parseInt(this.proj.getEntityAttr()[i].substring(6));
+					this.motionX *= speed;
+					this.motionY *= speed;
+					this.motionZ *= speed;
+				}
+			}
+		}
 	}
 	
 	public EnumAbility getAbility()
@@ -63,21 +79,25 @@ public class Projectile extends EntityThrowable
 	}
 
 	public void onUpdate()
-	{	
+	{
 		if(this.proj != null && this.proj.getEntityAttr() != null)
 		{
 			for(int i = 0; i < this.proj.getEntityAttr().length; i++)
-			{
-				if(this.proj.getEntityAttr()[i].equals("particles_vulcan"))
+			{	
+				String attr = this.proj.getEntityAttr()[i];
+
+				if(attr.equals("particles_smoke"))
+					DatabaseParticles.renderSmoke(this);
+				if(attr.equals("particles_vulcan"))
 					DatabaseParticles.renderVulcan(this);
-				if(this.proj.getEntityAttr()[i].equals("particles_greenfire"))
+				if(attr.equals("particles_greenfire"))
 					DatabaseParticles.renderGreenFire(this);
-				if(this.proj.getEntityAttr()[i].equals("particles_avalanche"))
+				if(attr.equals("particles_avalanche"))
 					DatabaseParticles.renderAvalanche(this);
-				if(this.proj.getEntityAttr()[i].equals("particles_fire"))
+				if(attr.equals("particles_fire"))
 					DatabaseParticles.renderFire(this);
 			}
-		}			
+		}	
 		super.onUpdate();
 	}
 
@@ -87,19 +107,43 @@ public class Projectile extends EntityThrowable
 		{
 			if (hit.entityHit != null)
 			{    
-				if(this.proj.getEntitySideEffect() == -1)
-					((EntityLivingBase)hit.entityHit).setFire(this.proj.getItemTicks());
+				EntityLivingBase entityHit = ((EntityLivingBase)hit.entityHit);
 				
 				if(!(this.proj.getEntitySideEffect() <= 0))
-					((EntityLivingBase)hit.entityHit).addPotionEffect(new PotionEffect(this.proj.getEntitySideEffect(), this.proj.getItemTicks()*2, this.proj.getEntityDmg()));
+					entityHit.addPotionEffect(new PotionEffect(this.proj.getEntitySideEffect(), this.proj.getItemTicks()*2, this.proj.getEntityDmg()));
 				
 				if(this.proj.getEntityAttr() != null)
 				{
 					for(int i = 0; i < this.proj.getEntityAttr().length; i++)
 					{
-						if(this.proj.getEntityAttr()[i].equals("create_iceball"))
+						String attr = this.proj.getEntityAttr()[i];
+						
+						if(attr.equals("create_iceball"))
+							DatabaseStructures.createIceBall(entityHit);	
+
+						if(attr.contains("on_hit_proj_"))
 						{
-							DatabaseStructures.createIceBall(((EntityLivingBase)hit.entityHit));		
+							String effect = attr.substring(12);
+							
+							if(effect.equals("fire"))
+								entityHit.setFire(this.proj.getItemTicks());
+							
+							if(effect.equals("bind"))
+								entityHit.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, this.proj.getItemTicks()/2, 10));
+							
+							if(effect.contains("launch_"))
+							{
+								int power = Integer.parseInt(attr.substring("on_hit_proj_launch_".length()));
+								int dir = MathHelper.floor_double(entityHit.rotationYaw * 4.0F / 360.0F + 0.5D) & 0x3;
+								if(dir==1)
+									entityHit.motionX += power;
+								else if(dir==2)
+									entityHit.motionX -= power; 
+								else if(dir==3)
+									entityHit.motionZ += power;
+								else if(dir==4)  
+									entityHit.motionZ -= power;
+							}
 						}
 					}
 				}
@@ -113,19 +157,32 @@ public class Projectile extends EntityThrowable
 				{
 					for(int i = 0; i < this.proj.getEntityAttr().length; i++)
 					{
-						if(this.proj.getEntityAttr()[i].equals("event_teleport"))
-							DatabaseEvents.eventTeleport(this);
+						String attr = this.proj.getEntityAttr()[i];
 						
-						if(this.proj.getEntityAttr()[i].contains("destroy_"))
+						if(attr.equals("create_iceball"))
+							DatabaseStructures.createIceBall(this);					
+						if(attr.equals("create_fireblock"))
+							this.worldObj.setBlock(hit.blockX, hit.blockY + 1, hit.blockZ, Blocks.fire);							
+						if(attr.equals("create_iceblock"))
+							this.worldObj.setBlock(hit.blockX, hit.blockY + 1, hit.blockZ, Blocks.packed_ice);				
+						if(attr.equals("create_lavablock"))
+							this.worldObj.setBlock(hit.blockX, hit.blockY + 1, hit.blockZ, Blocks.flowing_lava);						
+						if(attr.equals("event_teleport"))
+							DatabaseEvents.eventTeleport(this);											
+						
+						if(attr.contains("destroy_"))
 						{
-							int radius = Integer.parseInt(this.proj.getEntityAttr()[i].substring(8));
-							DatabaseEvents.eventDestoryBlocksInRadius(this, radius);							
+							int radius = Integer.parseInt(attr.substring(8));
+							if(radius > 0)
+								Helper.explosion(this, radius, false, false);						
 						}
+						
+						
 					}
 				}
 				
 				if(this.proj.getEntityExplosion() > 0)
-					Helper.explosion(this, this.proj.getEntityExplosion(), true, true);
+					Helper.explosion(this, this.proj.getEntityExplosion(), true, Config.allowGriefing_actual);
 				
 				if(this.proj.getEntityExplosion() != 0 && this.proj.getEntityExplosion() < 0)
 					Helper.explosion(this, this.proj.getEntityExplosion(), true, false);
@@ -134,7 +191,7 @@ public class Projectile extends EntityThrowable
 			}    
 		}       
 	}
-
+	
 	protected float getGravityVelocity()
 	{
 		return 0.001F;

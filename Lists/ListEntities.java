@@ -18,25 +18,23 @@ public class ListEntities
 
 	public static void init()
 	{
+		addENTITY("Marine", EntityMarine.class, 0x94D5F7, 0x0000FF);
+		addENTITY("Pirate", EntityPirate.class, 0xC9C9C9, 0xCC3134);
+		
 		EntityRegistry.registerModEntity(Projectile.class, "Proj", 1, Main.instance , 64, 10, true);
+	}
 
-		addENTITY("Marine", EntityMarine.class, new RenderMobType(new ModelMarine(), "marine"), Helper.hexToRGB("94D5F7"), Helper.hexToRGB("0000FF"));
-		addENTITY("Pirate", EntityPirate.class, new RenderMobType(new ModelPirate(), "pirate"), Helper.hexToRGB("C9C9C9"), Helper.hexToRGB("CC3134"));
+	private static void addENTITY(String name, Class<? extends Entity> entity)
+	{
+		addENTITY(name, entity, -1, -1);
 	}
 	
-	
-	
-	private static void addENTITY(String name, Class<? extends Entity> entity, Render renderer)
+	private static void addENTITY(String name, Class<? extends Entity> entity, int color1, int color2)
 	{
-		Helper.mobs.add(new Object[] {entity, renderer});
-		EntityRegistry.registerGlobalEntityID(entity, name, EntityRegistry.findGlobalUniqueEntityId());
-		LanguageRegistry.instance().addStringLocalization("entity."+name+".name", "en_US", name);			
-	}
-	
-	private static void addENTITY(String name, Class<? extends Entity> entity, Render renderer, int color1, int color2)
-	{
-		Helper.mobs.add(new Object[] {entity, renderer});
-		EntityRegistry.registerGlobalEntityID(entity, name, EntityRegistry.findGlobalUniqueEntityId(), color1, color2);
+		if(color1 != -1 && color2 != -1)
+			EntityRegistry.registerGlobalEntityID(entity, name, EntityRegistry.findGlobalUniqueEntityId(), color1, color2);
+		else
+			EntityRegistry.registerGlobalEntityID(entity, name, EntityRegistry.findGlobalUniqueEntityId());
 		LanguageRegistry.instance().addStringLocalization("entity."+name+".name", "en_US", name);			
 	}
 }

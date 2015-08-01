@@ -3,6 +3,8 @@ package MineMineNoMi3.Utils;
 import java.util.Iterator;
 import java.util.List;
 
+import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -12,7 +14,93 @@ import net.minecraft.util.AxisAlignedBB;
 import MineMineNoMi3.Lists.ListMisc;
 
 public class DatabaseStructures 
-{
+{	
+	
+	
+	public static void createLavaLake(EntityPlayer player)
+	{
+		if(!player.worldObj.isRemote)
+		{
+			int X = (int)player.posX;
+		    int Z = (int)player.posZ;
+		    int Y = (int)(player.posY - 1);
+		    Block replacement = player.worldObj.getBlock(X, Y, Z);
+
+		    for (int i = -7; i < 7; i++) 
+		    {
+		    	for (int k = -7; k < 7; k++) 
+		    	{
+		    		for (int j = 0; j <= 2; j++) 
+		    		{	        	
+		    			if(player.worldObj.getBlock(X + i, Y + j, Z + k) != Blocks.bedrock && player.worldObj.getBlock(X + i, Y + j, Z + k) != ListMisc.Ope 
+		    					&& player.worldObj.getBlock(X + i, Y + j, Z + k) != ListMisc.OpeMid)		
+		    			{
+		    				player.worldObj.setBlock(X, Y - j, Z, replacement);
+		    				player.worldObj.setBlock(X + i, Y - j, Z + k, Blocks.lava);   	
+		    			}
+		    		}
+		        }
+		    }
+		}			
+	}
+	
+	public static void createGroundDeath(EntityPlayer player)
+	{
+		if(!player.worldObj.isRemote)
+		{
+			int X = (int)player.posX;
+		    int Z = (int)player.posZ;
+		    int Y = (int)(player.posY + 2);
+		    Block replacement = player.worldObj.getBlock(X, Y - 3, Z);
+
+		    for (int i = -10; i < 10; i++) 
+		    {
+		    	for (int k = -10; k < 10; k++) 
+		    	{
+		    		for (int j = 0; j <= 2; j++) 
+		    		{	        	
+		    			if(player.worldObj.getBlock(X + i, Y + j, Z + k) != Blocks.bedrock && player.worldObj.getBlock(X + i, Y + j, Z + k) != ListMisc.Ope 
+		    					&& player.worldObj.getBlock(X + i, Y + j, Z + k) != ListMisc.OpeMid)
+		    			{
+		    				player.worldObj.setBlock(X, (Y - 3) - j, Z, replacement);
+		    				player.worldObj.setBlock(X + i, Y + j, Z + k, Blocks.sand);
+		    				player.worldObj.setBlock(X + i, (Y - 5) + j, Z + k, Blocks.air);
+		    				player.worldObj.setBlock(X, Y + j, Z, Blocks.air);
+		    			}    	  
+		    		}
+		        }
+		    }
+		}		
+	}
+	
+	public static void createDesertSpada(EntityPlayer player)
+	{
+		if(!player.worldObj.isRemote)
+		{
+			int X = (int)player.posX;
+		    int Z = (int)player.posZ;
+		    int Y = (int)(player.posY + 2);
+		    Block replacement = player.worldObj.getBlock(X, Y - 3, Z);
+
+		    for (int i = -5; i < 5; i++) 
+		    {
+		    	for (int k = -5; k < 5; k++) 
+		    	{
+		    		for (int j = 0; j <= 2; j++) 
+		    		{	        	
+		    			if(player.worldObj.getBlock(X + i, Y+j, Z + k) != Blocks.bedrock && player.worldObj.getBlock(X + i, Y+j, Z + k) != ListMisc.Ope 
+		    					&& player.worldObj.getBlock(X + i, Y+j, Z + k) != ListMisc.OpeMid)
+		    			{
+		    				player.worldObj.setBlock(X, (Y - 3) - j, Z, replacement);
+		    				player.worldObj.setBlock(X + i, Y + j, Z + k, Blocks.sand);
+		    				player.worldObj.setBlock(X + i, (Y - 5) + j, Z + k, Blocks.air);
+		    				player.worldObj.setBlock(X, Y + j, Z, Blocks.air);
+		    			}    	  
+		    		}
+		        }
+		    }
+		}
+	}
 	
 	public static void createRoom(final EntityLivingBase entity)
 	{
@@ -39,7 +127,7 @@ public class DatabaseStructures
 		}
 	}
 	
-	public static void createIceBall(final EntityLivingBase entity)
+	public static void createIceBall(final Entity entity)
 	{
 		int X = (int)entity.posX;
 	    int Z = (int)entity.posZ;

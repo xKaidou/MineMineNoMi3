@@ -1,23 +1,21 @@
 package MineMineNoMi3.GUI;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 import MineMineNoMi3.Config;
 import MineMineNoMi3.Helper;
+import MineMineNoMi3.Main;
 import MineMineNoMi3.MainExtendedPlayer;
-import cpw.mods.fml.client.FMLClientHandler;
+import MineMineNoMi3.Packets.PacketSync;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class GUIPlayer extends GuiScreen
 {
@@ -46,17 +44,16 @@ public class GUIPlayer extends GuiScreen
 		int j = (this.height/2)-65;
 		int color = 16777215;		
 		String text_doriki, text_faction, text_belly, text_race, text_bounty, text_job;
-		boolean flag = Config.allowDebugMode_actual;
+		boolean flag = Config.allowDebugMode_actual;		
 
-		
 		if(flag)
 		{
-			text_doriki = Helper.makeFabulous("DORIKI: ") + EnumChatFormatting.RESET + props.getDoriki();
-			text_faction = Helper.makeFabulous("ALLIANCE: ") + EnumChatFormatting.RESET + props.getDoriki();
-			text_belly = Helper.makeFabulous("BELLY: ") + EnumChatFormatting.RESET + props.getBelly();
-			text_race = Helper.makeFabulous("RACE: ") + EnumChatFormatting.RESET + props.getRace();
-			text_bounty = Helper.makeFabulous("BOUNTY: ") + EnumChatFormatting.RESET + props.getBounty();
-			text_job = Helper.makeFabulous("JOB: ") + EnumChatFormatting.RESET + props.getJob();
+			text_doriki = Helper.makeFabulous("DORIKI: " + props.getDoriki());
+			text_faction = Helper.makeFabulous("ALLIANCE: " + props.getDoriki());
+			text_belly = Helper.makeFabulous("BELLY: " + props.getBelly());
+			text_race = Helper.makeFabulous("RACE: " + props.getRace());
+			text_bounty = Helper.makeFabulous("BOUNTY: " + props.getBounty());
+			text_job = Helper.makeFabulous("JOB: " + props.getJob());
 		}
 		else
 		{
@@ -67,7 +64,7 @@ public class GUIPlayer extends GuiScreen
 			text_bounty = EnumChatFormatting.DARK_AQUA + "" + EnumChatFormatting.BOLD + "BOUNTY: " + EnumChatFormatting.RESET + props.getBounty();
 			text_job = EnumChatFormatting.DARK_PURPLE + ""+EnumChatFormatting.BOLD + "JOB: " + EnumChatFormatting.RESET + props.getJob();
 		}
-			
+	
 		mc.fontRenderer.drawStringWithShadow(text_doriki, i, j, color);
 		mc.fontRenderer.drawStringWithShadow(text_faction, i, j + 20, color);
 		mc.fontRenderer.drawStringWithShadow(text_belly, i, j + 40, color);
@@ -77,8 +74,8 @@ public class GUIPlayer extends GuiScreen
 		{
 			mc.fontRenderer.drawStringWithShadow(text_bounty, i, j + 100, color);
 		}
-	
-		Helper.renderPlayerModelInGUI(posX+190, posY+200 , 67, 16, 0, this.player);
+
+		Helper.renderModelInGUI(posX+190, posY+200 , 67, 16, 0, this.player);
     
 		super.drawScreen(x, y, f);
 	}

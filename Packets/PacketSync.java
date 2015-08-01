@@ -9,38 +9,33 @@ import cpw.mods.fml.common.network.ByteBufUtils;
 
 public class PacketSync extends AbstractPacket
 {
-	private NBTTagCompound compound;
+	private NBTTagCompound data;
 
-	public PacketSync()
-	{}
-
-	public PacketSync(EntityPlayer player)
-	{
-		this.compound = new NBTTagCompound();
-		MainExtendedPlayer.get(player).saveNBTData(this.compound);
-	}
+	public PacketSync(){}
   
 	public PacketSync(MainExtendedPlayer info)
 	{
-		this.compound = new NBTTagCompound();
-		info.saveNBTData(this.compound);
+		this.data = new NBTTagCompound();
+		info.saveNBTData(this.data);
 	}
 
 	public void encodeInto(ChannelHandlerContext ctx, ByteBuf buffer)
 	{
-		ByteBufUtils.writeTag(buffer, this.compound);
+		ByteBufUtils.writeTag(buffer, this.data);
 	}
 
 	public void decodeInto(ChannelHandlerContext ctx, ByteBuf buffer)
 	{
-		this.compound = ByteBufUtils.readTag(buffer);
+		this.data = ByteBufUtils.readTag(buffer);
 	}
 
 	public void handleClientSide(EntityPlayer player)
 	{
-		MainExtendedPlayer.get(player).loadNBTData(this.compound);
+		MainExtendedPlayer.get(player).loadNBTData(this.data);
 	}
 
-	public void handleServerSide(EntityPlayer player){}
-	
+	public void handleServerSide(EntityPlayer player)
+	{
+		MainExtendedPlayer.get(player).loadNBTData(this.data);
+	}
 }

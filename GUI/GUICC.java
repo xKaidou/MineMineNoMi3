@@ -3,19 +3,23 @@ package MineMineNoMi3.GUI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
 import MineMineNoMi3.Helper;
+import MineMineNoMi3.Main;
 import MineMineNoMi3.MainExtendedPlayer;
 import MineMineNoMi3.Lists.ListMisc;
+import MineMineNoMi3.Packets.PacketPlayer;
+import MineMineNoMi3.Packets.PacketSync;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class GUICC extends GuiScreen
 {
 	private ResourceLocation texture = new ResourceLocation("mineminenomi", "textures/gui/gui_blank.png");
@@ -36,25 +40,42 @@ public class GUICC extends GuiScreen
 		MainExtendedPlayer props = MainExtendedPlayer.get(this.player);
     
 		Minecraft.getMinecraft().getTextureManager().bindTexture(this.texture);
-    
+		
 		int posX = (this.width - 256) / 2;
 		int posY = (this.height - 256) / 2;
 		drawTexturedModalRect(posX, posY + 50, 0, 0, 256, 256);
-		
-		GL11.glPushMatrix();
-		double i = 1.5;
-		GL11.glScaled(i, i, i);
+		//System.out.println(mc.fontRenderer.FONT_HEIGHT);
 		
 		if(this.page == 0)
-			mc.fontRenderer.drawStringWithShadow("Choose a faction ", posX - 20, posY + 42, Helper.hexToRGB("FFFFFF"));
+			mc.fontRenderer.drawStringWithShadow("Choose a faction ", posX + 20, posY + 59, Helper.hexToInt("FFFFFF"));
 		if(this.page == 1)	
-			mc.fontRenderer.drawStringWithShadow("Choose a race ", posX - 20, posY + 42, Helper.hexToRGB("FFFFFF"));
+			mc.fontRenderer.drawStringWithShadow("Choose a race ", posX + 20, posY + 59, Helper.hexToInt("FFFFFF"));
 		if(this.page == 2)	
-			mc.fontRenderer.drawStringWithShadow("Choose a job ", posX - 20, posY + 42, Helper.hexToRGB("FFFFFF"));
+			mc.fontRenderer.drawStringWithShadow("Choose a job ", posX + 20, posY + 59, Helper.hexToInt("FFFFFF"));
 		
-		GL11.glPopMatrix();
+		if(props.getFaction().equals("Pirate"))
+			mc.fontRenderer.drawStringWithShadow("Pirate", posX + 250, posY + 59, Helper.hexToInt("FF0000"));
+		if(props.getFaction().equals("Marine"))
+			mc.fontRenderer.drawStringWithShadow("Marine", posX + 250, posY + 59, Helper.hexToInt("00C3FF"));
+		if(props.getFaction().equals("Bounty Hunter"))
+			mc.fontRenderer.drawStringWithShadow("Bounty Hunter", posX + 250, posY + 59, Helper.hexToInt("09FF00"));
 		
-		Helper.renderPlayerModelInGUI(posX+190, posY+200 , 67, 16, 0, this.player);
+		if(props.getRace().equals("Human"))
+			mc.fontRenderer.drawStringWithShadow("Human", posX + 250, posY + 79, Helper.hexToInt("FFDD00"));
+		if(props.getRace().equals("Cyborg"))
+			mc.fontRenderer.drawStringWithShadow("Cyborg", posX + 250, posY + 79, Helper.hexToInt("8400FF"));
+		if(props.getRace().equals("Fishman"))
+			mc.fontRenderer.drawStringWithShadow("Fishman", posX + 250, posY + 79, Helper.hexToInt("4D6DFF"));
+		
+		if(props.getJob().equals("Swordsman"))
+			mc.fontRenderer.drawStringWithShadow("Swordsman", posX + 250, posY + 99, Helper.hexToInt("A7ED93"));
+		if(props.getJob().equals("Medic"))
+			mc.fontRenderer.drawStringWithShadow("Medic", posX + 250, posY +99, Helper.hexToInt("ED93AA"));
+		if(props.getJob().equals("Sniper"))
+			mc.fontRenderer.drawStringWithShadow("Sniper", posX + 250, posY + 99, Helper.hexToInt("FF9100"));
+				
+		
+		Helper.renderModelInGUI(posX+190, posY+200, 67, 16, 0, this.player);
 
 		super.drawScreen(x, y, f);
 	}
@@ -68,7 +89,7 @@ public class GUICC extends GuiScreen
 		
 		this.buttonList.add(new GuiButton(101, posX + 10, posY + 190, 40, 20, "< Prev"));
 		
-		this.buttonList.add(new GuiButton(102, posX + 70, posY + 190, 40, 20, "Finish"));
+		this.buttonList.add(new GuiButton(102, posX + 42, posY + 215, 40, 20, "Finish"));
 		
 		if(this.page == 0)
 		{
@@ -97,8 +118,6 @@ public class GUICC extends GuiScreen
 	
 	public void onGuiClosed()
 	{
-		
-		
 		this.player.inventory.armorInventory[3] = this.helm;
 		this.player.inventory.armorInventory[2] = this.chestplate;
 		this.player.inventory.armorInventory[1] = this.leggings;
@@ -121,6 +140,14 @@ public class GUICC extends GuiScreen
 		
 		switch (button.id)
 		{
+		case 102:
+			if(!props.getRace().equals("N/A") && !props.getFaction().equals("N/A") && !props.getJob().equals("N/A"))
+			{
+				this.mc.displayGuiScreen((GuiScreen)null);
+				Main.network.sendToServer(new PacketSync(props));
+				Main.network.sendToServer(new PacketPlayer("delete_book"));
+			}
+			break;
 		case 100:
 			if(this.page < 2)
 				this.page++;
@@ -157,6 +184,30 @@ public class GUICC extends GuiScreen
 			for(int i = 0; i < this.player.inventory.armorInventory.length; i++)
 				this.player.inventory.armorInventory[i] = null;
 			props.setFaction("Bounty Hunter");
+			break;
+			
+		case 4:
+			props.setRace("Fishman");
+			break;
+			
+		case 5:
+			props.setRace("Human");
+			break;
+			
+		case 6:
+			props.setRace("Cyborg");
+			break;
+			
+		case 8:
+			props.setJob("Sniper");
+			break;
+			
+		case 9:
+			props.setJob("Swordsman");
+			break;
+			
+		case 10:
+			props.setJob("Medic");
 			break;
 		}
 	}

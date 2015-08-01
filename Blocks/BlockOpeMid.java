@@ -24,7 +24,6 @@ public class BlockOpeMid extends BlockContainer
 			setLightOpacity(0);
         }
 		
-
 		public boolean shouldSideBeRendered(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
 		{
 			return super.shouldSideBeRendered(par1IBlockAccess, par2, par3, par4, 1 - par5);
@@ -67,7 +66,6 @@ public class BlockOpeMid extends BlockContainer
 								if(par1World.getBlock(x, y, z)==ListMisc.Ope)
 								{
 									par1World.setBlock(x, y, z, Blocks.air);
-									TileEntityOpe.isRoom = false;
 								}
 							}
 						});	

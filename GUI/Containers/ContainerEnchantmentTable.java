@@ -2,13 +2,11 @@ package MineMineNoMi3.GUI.Containers;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
@@ -68,32 +66,42 @@ public class ContainerEnchantmentTable extends Container
 
 	public void onCraftMatrixChanged(IInventory par1IInventory)
 	{
-		ItemStack var3 = this.dialEnch.getStackInSlot(0);
+		ItemStack itemStack = this.dialEnch.getStackInSlot(0);
 		
 		if(!this.world.isRemote && this.dialEnch.getStackInSlot(0) != null && this.dialSlots.getStackInSlot(0) != null && this.dialSlots.getStackInSlot(1) != null && this.dialSlots.getStackInSlot(2) != null)
 		{	
 			for(int i = 0; i < this.dialSlots.getSizeInventory(); i++)
 			{
-				if(!var3.isItemEnchanted())
+				if(!itemStack.isItemEnchanted())
 				{
-					if(var3.getItem() instanceof ItemSword)
-					{
-				        if(this.dialSlots.getStackInSlot(i).getItem() == ListMisc.DialFire)	
-				        	var3.addEnchantment(Enchantment.fireAspect, 1);
-				        if(this.dialSlots.getStackInSlot(i).getItem() == ListMisc.DialImpact)	
-				        	var3.addEnchantment(ListPotions.dialImpact, 1);
-				        if(this.dialSlots.getStackInSlot(i).getItem() == ListMisc.DialEisen)	
-				        	var3.addEnchantment(Enchantment.sharpness, 3);
-				        if(this.dialSlots.getStackInSlot(i).getItem() == ListMisc.BlackMetal)	
+					Item mat = this.dialSlots.getStackInSlot(i).getItem();
+					
+					if(itemStack.getItem() instanceof ItemSword)
+					{								
+				        if(mat == ListMisc.DialFire)	
+				        	itemStack.addEnchantment(Enchantment.fireAspect, 1);
+				        if(mat == ListMisc.DialImpact)	
+				        	itemStack.addEnchantment(ListPotions.dialImpact, 1);
+				        if(mat == ListMisc.DialEisen)	
+				        	itemStack.addEnchantment(Enchantment.sharpness, 2);
+				        if(mat == ListMisc.DialBreath)
+				        	itemStack.addEnchantment(Enchantment.knockback, 2);
+				        if(mat == ListMisc.BlackMetal)	
 				        {
-				        	var3.addEnchantment(Enchantment.sharpness, 10);
-				        	var3.addEnchantment(Enchantment.sharpness, 2);
+				        	itemStack.addEnchantment(Enchantment.sharpness, 10);
+				        	itemStack.addEnchantment(Enchantment.sharpness, 2);
 				        }
 					}
-					if(var3.getItem() instanceof ItemArmor)
+					if(itemStack.getItem() instanceof ItemArmor)
 					{
-				        if(this.dialSlots.getStackInSlot(i).getItem() == ListMisc.DialFire)	
-				        	var3.addEnchantment(Enchantment.fireProtection, 1);
+						if(mat == ListMisc.DialFire)	
+							itemStack.addEnchantment(Enchantment.fireProtection, 1);
+						if(mat == ListMisc.DialEisen)
+							itemStack.addEnchantment(Enchantment.protection, 2);
+						if(mat == ListMisc.DialImpact)
+							itemStack.addEnchantment(Enchantment.blastProtection, 2);
+						if(mat == ListMisc.DialBreath)
+							itemStack.addEnchantment(Enchantment.thorns, 1);					
 					}
 				}
 				this.dialSlots.setInventorySlotContents(i, null);
@@ -101,9 +109,6 @@ public class ContainerEnchantmentTable extends Container
 		}
 	}
 	
-
-        
-
 	public boolean canInteractWith(EntityPlayer arg0) 
 	{
 		return true;

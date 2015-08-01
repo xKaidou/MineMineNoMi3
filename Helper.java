@@ -12,6 +12,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.stats.Achievement;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.Explosion;
@@ -19,6 +20,7 @@ import net.minecraft.world.Explosion;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import MineMineNoMi3.Entities.Projectile;
 import MineMineNoMi3.Utils.CustomExplosion;
 
 public class Helper 
@@ -26,8 +28,11 @@ public class Helper
 	public static List<Item> abilities = new ArrayList();
 	public static List<Item> devilfruits = new ArrayList();
 	public static List<Item> logias = new ArrayList();
-	public static List<Object[]> mobs = new ArrayList();
-	
+	public static List<Item> dfsInWorld = new ArrayList();
+	public static final int MAX_DORIKI = 10000;
+	public static final int MAX_BOUNTY = 999999999;
+	public static final int MAX_BELLY = 999999999;
+
 	public static void sendText(EntityPlayer player, String text)
 	{
 		if(Config.allowDebugMode_actual)
@@ -69,7 +74,23 @@ public class Helper
     {
 		if(normal)
 		{
-			e.worldObj.newExplosion(e, e.posX, e.posY, e.posZ, force, false, griefing);
+			if(e instanceof Projectile)
+			{
+				if(((Projectile) e).proj.getEntityAttr() != null)
+				{			
+					for(int i = 0; i < ((Projectile) e).proj.getEntityAttr().length; i++)
+					{
+						String attr = ((Projectile) e).proj.getEntityAttr()[i];
+						
+						if(attr.equals("create_fireblock"))
+							e.worldObj.newExplosion(e, e.posX, e.posY, e.posZ, force, true, griefing);	
+						else
+							e.worldObj.newExplosion(e, e.posX, e.posY, e.posZ, force, false, griefing);
+					}
+				}
+			}
+			else
+				e.worldObj.newExplosion(e, e.posX, e.posY, e.posZ, force, false, griefing);
 			return null;
 		}
 		else
@@ -80,13 +101,17 @@ public class Helper
 		}
 	}
 	
-	public static int hexToRGB(String hexColor)
+	public static int hexToInt(String hexColor)
 	{
-		int value = Integer.parseInt(hexColor, 16);
-		return value;
+		return Integer.parseInt(hexColor, 16);
 	}
 	
-	public static void renderPlayerModelInGUI(int x, int y, int z, float i, float j, EntityLivingBase entity)
+	public static Color hexToRGB(String hexColor)
+	{
+		return Color.decode("#"+hexColor);
+	}
+	
+	public static void renderModelInGUI(int x, int y, int z, float i, float j, EntityLivingBase entity)
 	{
 		GL11.glEnable(GL11.GL_COLOR_MATERIAL);
 		GL11.glPushMatrix();

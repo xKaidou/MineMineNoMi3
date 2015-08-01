@@ -14,7 +14,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderProjectile extends Render
 {
-    double scaleX, scaleY, scaleZ, red, blue, green;
+    double scaleX, scaleY, scaleZ, rotationAngle, red, blue, green;
     private ModelBase model;
     
     public RenderProjectile() 
@@ -41,7 +41,7 @@ public class RenderProjectile extends Render
 		GL11.glDisable(3553);
 		GL11.glEnable(3042);
 		GL11.glBlendFunc(770, 771);
-		
+
         GL11.glRotatef(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * par9 - 90.0F, 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * par9, 0.0F, 0.0F, 1.0F);
 		GL11.glColor4d(this.red/255, this.green/255, this.blue/255, 255);

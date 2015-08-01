@@ -119,6 +119,7 @@ public class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, Abstra
     
     public void registerPackets() {
     	registerPacket(PacketSync.class);
+    	registerPacket(PacketPlayer.class);
 
     }
 

@@ -3,7 +3,9 @@ package MineMineNoMi3.Proxy;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class CommonProxy 
 {

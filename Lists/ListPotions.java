@@ -12,107 +12,51 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 public class ListPotions 
 {
 
-    public static Potion meramera;
-    public static Potion hiehie;
-    public static Potion pikapika;
-	public static Potion sukesuke;
-	public static Potion gomugomu;
-	public static Potion noronoro;
-	public static Potion banebane;
-	public static Potion gorogoro;
-	public static Potion opeope;
-	public static Potion mokumoku;
-	public static Potion nikyunikyu;
-	public static Potion bomubomu;
-	public static Potion guragura;
-	public static Potion kagekage;
-	public static Potion sunasuna;
-	public static Potion magumagu;
-	public static Potion dorudoru;
-	public static Potion dokudoku;
-	public static Potion baribari;
-	public static Potion gasugasu;
-	public static Potion yukiyuki;
-	public static Potion jikijiki;
-	public static Potion ushiushi1;
-	public static Potion toritori1;
-	public static Potion yamiyami;
-	public static Potion itoito;
-	public static Potion toritori2;
-	public static Potion nekoneko;
-	public static Potion horohoro;
-	public static Potion manemane;
-	public static Potion supasupa;
-	public static Potion hanahana;
-	public static Potion oriori;
-	public static Potion goegoe;
-	public static Potion meromero;
-	public static Potion kilokilo;
-	public static Potion horuhoru;
+    public static Potion meramera, hiehie, pikapika, sukesuke, gomugomu, noronoro, banebane, gorogoro, opeope, mokumoku, nikyunikyu, bomubomu, guragura, kagekage
+    			, sunasuna, magumagu, dorudoru, dokudoku, baribari, gasugasu, yukiyuki, jikijiki, ushiushi1, toritori1, yamiyami, itoito, toritori2, nekoneko, horohoro
+    			, manemane, supasupa, hanahana, oriori, goegoe, meromero, kilokilo, horuhoru;
 	
-	public static Enchantment dialImpact;
-	public static Enchantment dialFlash;
-	public static Enchantment dialAxe;
-	public static Enchantment kairoseki;
+	public static Enchantment dialImpact, dialFlash, dialAxe, kairoseki;
 	
 	public static void init()
 	{
-		addPotion();
-		addNames();
-	}		
-	public static void addPotion()
-	{
-		   meramera = new MainPotion(100,false,0).setIconIndex(0,0).setPotionName("potion.meramera");
-		   hiehie 	= new MainPotion(101,false,0).setIconIndex(0,0).setPotionName("potion.hiehie");
-		   pikapika = new MainPotion(102,false,0).setIconIndex(0,0).setPotionName("potion.pikapika");
-	       sukesuke = new MainPotion(103,false,0).setIconIndex(0,0).setPotionName("potion.sukesuke");
-		   gomugomu = new MainPotion(104,false,0).setIconIndex(0,0).setPotionName("potion.gomugomu");
-		   noronoro = new MainPotion(105,false,0).setIconIndex(0,0).setPotionName("potion.noronoro");
-		   banebane = new MainPotion(106,false,0).setIconIndex(0,0).setPotionName("potion.banebane");
-		   gorogoro = new MainPotion(107,false,0).setIconIndex(0,0).setPotionName("potion.gorogoro");
-		   opeope 	= new MainPotion(108,false,0).setIconIndex(0,0).setPotionName("potion.opeope");
-		   mokumoku = new MainPotion(109,false,0).setIconIndex(0,0).setPotionName("potion.mokumoku");
-		   nikyunikyu = new MainPotion(110,false,0).setIconIndex(0,0).setPotionName("potion.nikyunikyu");
-		   bomubomu = new MainPotion(111,false,0).setIconIndex(0,0).setPotionName("potion.bomubomu");
-		   guragura = new MainPotion(112,false,0).setIconIndex(0,0).setPotionName("potion.guragura"); 
-		   kagekage = new MainPotion(113,false,0).setIconIndex(0,0).setPotionName("potion.kagekage");
-		   sunasuna = new MainPotion(114,false,0).setIconIndex(0,0).setPotionName("potion.sunasuna");
-		   magumagu = new MainPotion(115,false,0).setIconIndex(0,0).setPotionName("potion.magumagu");
-		   dorudoru = new MainPotion(116,false,0).setIconIndex(0,0).setPotionName("potion.dorudoru");
-		   dokudoku = new MainPotion(117,false,0).setIconIndex(0,0).setPotionName("potion.dokudoku"); 
-		   baribari = new MainPotion(118,false,0).setIconIndex(0,0).setPotionName("potion.baribari");
-		   gasugasu = new MainPotion(119,false,0).setIconIndex(0,0).setPotionName("potion.gasugasu");
-		   yukiyuki = new MainPotion(120,false,0).setIconIndex(0,0).setPotionName("potion.yukiyuki");
-		   jikijiki = new MainPotion(121,false,0).setIconIndex(0,0).setPotionName("potion.jikijiki");
-		   ushiushi1 = new MainPotion(122,false,0).setIconIndex(0,0).setPotionName("potion.ushiushi");
-		   toritori1 = new MainPotion(123,false,0).setIconIndex(0,0).setPotionName("potion.toritori");
-		   yamiyami = new MainPotion(124,false,0).setIconIndex(0,0).setPotionName("potion.yamiyami");
-		   itoito   = new MainPotion(125,false,0).setIconIndex(0,0).setPotionName("potion.itoito");
-		   toritori2 = new MainPotion(126,false,0).setIconIndex(0, 0).setPotionName("potion.toritori");
-		   nekoneko = new MainPotion(127,false,0).setIconIndex(0, 0).setPotionName("potion.nekoneko");
-		   horohoro = new MainPotion(128,false,0).setIconIndex(0, 0).setPotionName("potion.horohoro");
-		   supasupa = new MainPotion(129,false,0).setIconIndex(0, 0).setPotionName("potion.supasupa");
-		   meromero = new MainPotion(130,false,0).setIconIndex(0, 0).setPotionName("potion.meromero");
-		   oriori = new MainPotion(131,false,0).setIconIndex(0, 0).setPotionName("potion.oriori");
-		   goegoe = new MainPotion(132,false,0).setIconIndex(0, 0).setPotionName("potion.goegoe");
-		   hanahana = new MainPotion(133,false,0).setIconIndex(0, 0).setPotionName("potion.hanahana");
-		   kilokilo = new MainPotion(134,false,0).setIconIndex(0, 0).setPotionName("potion.kilokilo");
-		   horuhoru = new MainPotion(135,false,0).setIconIndex(0, 0).setPotionName("potion.horuhoru");
+		meramera 	= new MainPotion(30, false, 0).setIconIndex(0, 0).setPotionName("potion.meramera");
+		hiehie 		= new MainPotion(31, false, 0).setIconIndex(0, 0).setPotionName("potion.hiehie");
+		pikapika 	= new MainPotion(32, false, 0).setIconIndex(0, 0).setPotionName("potion.pikapika");
+		sukesuke 	= new MainPotion(33, false, 0).setIconIndex(0, 0).setPotionName("potion.sukesuke");
+		gomugomu 	= new MainPotion(34, false, 0).setIconIndex(0, 0).setPotionName("potion.gomugomu");
+		noronoro 	= new MainPotion(35, false, 0).setIconIndex(0, 0).setPotionName("potion.noronoro");
+		banebane 	= new MainPotion(36, false, 0).setIconIndex(0, 0).setPotionName("potion.banebane");
+		gorogoro 	= new MainPotion(37, false, 0).setIconIndex(0, 0).setPotionName("potion.gorogoro");
+		opeope 		= new MainPotion(38, false, 0).setIconIndex(0, 0).setPotionName("potion.opeope");
+		mokumoku 	= new MainPotion(39, false, 0).setIconIndex(0, 0).setPotionName("potion.mokumoku");
+		nikyunikyu 	= new MainPotion(40, false, 0).setIconIndex(0, 0).setPotionName("potion.nikyunikyu");
+		bomubomu 	= new MainPotion(41, false, 0).setIconIndex(0, 0).setPotionName("potion.bomubomu");
+		guragura 	= new MainPotion(42, false, 0).setIconIndex(0, 0).setPotionName("potion.guragura"); 
+		kagekage 	= new MainPotion(43, false, 0).setIconIndex(0, 0).setPotionName("potion.kagekage");
+		sunasuna 	= new MainPotion(44, false, 0).setIconIndex(0, 0).setPotionName("potion.sunasuna");
+		magumagu 	= new MainPotion(45, false, 0).setIconIndex(0, 0).setPotionName("potion.magumagu");
+		dorudoru 	= new MainPotion(46, false, 0).setIconIndex(0, 0).setPotionName("potion.dorudoru");
+		dokudoku 	= new MainPotion(47, false, 0).setIconIndex(0, 0).setPotionName("potion.dokudoku"); 
+		baribari 	= new MainPotion(48, false, 0).setIconIndex(0, 0).setPotionName("potion.baribari");
+		gasugasu 	= new MainPotion(49, false, 0).setIconIndex(0, 0).setPotionName("potion.gasugasu");
+		yukiyuki 	= new MainPotion(50, false, 0).setIconIndex(0, 0).setPotionName("potion.yukiyuki");
+		jikijiki 	= new MainPotion(51, false, 0).setIconIndex(0, 0).setPotionName("potion.jikijiki");
+		ushiushi1 	= new MainPotion(52, false, 0).setIconIndex(0, 0).setPotionName("potion.ushiushi");
+		toritori1 	= new MainPotion(53, false, 0).setIconIndex(0, 0).setPotionName("potion.toritori");
+		yamiyami 	= new MainPotion(54, false, 0).setIconIndex(0, 0).setPotionName("potion.yamiyami");
+		itoito  	= new MainPotion(55, false, 0).setIconIndex(0, 0).setPotionName("potion.itoito");
+		toritori2 	= new MainPotion(56, false, 0).setIconIndex(0, 0).setPotionName("potion.toritori");
+		nekoneko 	= new MainPotion(57, false, 0).setIconIndex(0, 0).setPotionName("potion.nekoneko");
+		horohoro 	= new MainPotion(58, false, 0).setIconIndex(0, 0).setPotionName("potion.horohoro");
+		supasupa 	= new MainPotion(59, false, 0).setIconIndex(0, 0).setPotionName("potion.supasupa");
+		meromero 	= new MainPotion(60, false, 0).setIconIndex(0, 0).setPotionName("potion.meromero");
+		oriori 		= new MainPotion(61, false, 0).setIconIndex(0, 0).setPotionName("potion.oriori");
+		goegoe 		= new MainPotion(62, false, 0).setIconIndex(0, 0).setPotionName("potion.goegoe");
+		hanahana 	= new MainPotion(63, false, 0).setIconIndex(0, 0).setPotionName("potion.hanahana");
+		kilokilo 	= new MainPotion(64, false, 0).setIconIndex(0, 0).setPotionName("potion.kilokilo");
+		horuhoru 	= new MainPotion(65, false, 0).setIconIndex(0, 0).setPotionName("potion.horuhoru");
 
-		   
-		   dialImpact = new MainEnchantment(145, 4, EnumToolMaterials.impactDial, "Impact", 1);
-		   kairoseki = new MainEnchantment(146, 4, EnumToolMaterials.kairoseki, "Kairoseki", 1);
-		   dialFlash = new MainEnchantment(147, 4, EnumToolMaterials.flashDial, "Flash", 1);
-		   dialAxe = new MainEnchantment(148, 4, EnumToolMaterials.axeDial, "Axe", 1);
-	}
-	
-	public static void addNames()
-	{
-		LanguageRegistry.instance().addStringLocalization("enchantment.Impact", "en_US", "Impact Dial");
-		LanguageRegistry.instance().addStringLocalization("enchantment.Flash", "en_US", "Flash Dial");
-		LanguageRegistry.instance().addStringLocalization("enchantment.Axe", "en_US", "Axe Dial");
-		LanguageRegistry.instance().addStringLocalization("enchantment.Kairoseki", "en_US", "Kairoseki");
-		
 		LanguageRegistry.instance().addStringLocalization("potion.meramera", "Mera Mera no Mi");
 		LanguageRegistry.instance().addStringLocalization("potion.hiehie", "Hie Hie no Mi");
 		LanguageRegistry.instance().addStringLocalization("potion.pikapika", "Pika Pika no Mi");
@@ -148,6 +92,16 @@ public class ListPotions
 		LanguageRegistry.instance().addStringLocalization("potion.hanahana", "Hana Hana no Mi");
 		LanguageRegistry.instance().addStringLocalization("potion.horuhoru", "Horu Horu no Mi");
 		LanguageRegistry.instance().addStringLocalization("potion.kilokilo", "Kilo Kilo no Mi");
+		
+		dialImpact 	= new MainEnchantment(145	, 4	, EnumToolMaterials.impactDial	, "Impact"		, 1);
+		dialFlash	= new MainEnchantment(146	, 4	, EnumToolMaterials.flashDial	, "Flash"		, 1);
+		dialAxe 	= new MainEnchantment(147	, 4	, EnumToolMaterials.axeDial		, "Axe"			, 1);
+		kairoseki 	= new MainEnchantment(148	, 4	, EnumToolMaterials.kairoseki	, "Kairoseki"	, 1);	
+		
+		LanguageRegistry.instance().addStringLocalization("enchantment.Impact", "Impact Dial");
+		LanguageRegistry.instance().addStringLocalization("enchantment.Flash", "Flash Dial");
+		LanguageRegistry.instance().addStringLocalization("enchantment.Axe", "Axe Dial");
+		LanguageRegistry.instance().addStringLocalization("enchantment.Kairoseki", "Kairoseki");
 	}
 	
 	public static void expandPotions()
@@ -171,9 +125,10 @@ public class ListPotions
 	
 					f.set(null, newPotionTypes);
 		        }
-			} catch (Exception e) {
+			} 
+			catch (Exception e) 
+			{
 				System.err.println("[Mine Mine no Mi] Severe error, please report this to the mod author");
-
 				System.err.println(e);
 			}
 		}

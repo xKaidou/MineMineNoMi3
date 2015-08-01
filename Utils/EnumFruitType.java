@@ -5,9 +5,12 @@ import net.minecraft.util.EnumChatFormatting;
 public enum EnumFruitType 
 {
 
-	PARAMECIA(EnumChatFormatting.RED, "Paramecia"),
-	LOGIA(EnumChatFormatting.YELLOW, "Logia"),
-	ZOAN(EnumChatFormatting.GREEN, "Zoan");
+	PARAMECIA		(EnumChatFormatting.RED			, "Paramecia"),
+	LOGIA			(EnumChatFormatting.YELLOW		, "Logia"),
+	MYTHICALZOAN	(EnumChatFormatting.AQUA		, "Mythical Zoan"),
+	ANCIENTZOAN		(EnumChatFormatting.GREEN		, "Ancient Zoan"),
+	ARTIFICIALZOAN	(EnumChatFormatting.LIGHT_PURPLE, "Artificial Zoan"),
+	ZOAN			(EnumChatFormatting.GREEN		, "Zoan");
 	
 	private EnumChatFormatting color;
 	private String name;

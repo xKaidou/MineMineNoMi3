@@ -211,12 +211,4 @@ public class CustomExplosion extends Explosion {
 	public Map func_77277_b() {
 		return this.field_77288_k;
 	}
-
-	public EntityLivingBase getExplosivePlacedBy() {
-		return this.exploder == null ? null
-				: (this.exploder instanceof EntityTNTPrimed ? ((EntityTNTPrimed) this.exploder)
-						.getTntPlacedBy()
-						: (this.exploder instanceof EntityLivingBase ? (EntityLivingBase) this.exploder
-								: null));
-	}
 }

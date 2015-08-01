@@ -15,10 +15,10 @@ public class MainExtendedPlayer implements IExtendedEntityProperties
 	public static final String EXT_PROP_NAME = "ExtendedPlayer";
 	private EntityPlayer player;
 	
-	private int doriki, bounty, belly;
+	private int doriki, bounty, belly, zoanType, hakiExp;
 	private String faction = "N/A", race = "N/A", job = "N/A", quest = "N/A";
-	private boolean hasFruitEffect, isLogia;
-	private String akumaNoMiUsed = "";
+	private boolean hasFruitEffect, isLogia, hasShadow = true, hasHeart = true;
+	private String akumaNoMiUsed = "N/A";
 	
 	public MainExtendedPlayer(EntityPlayer player)
 	{
@@ -35,6 +35,11 @@ public class MainExtendedPlayer implements IExtendedEntityProperties
 		player.registerExtendedProperties("ExtendedPlayer", new MainExtendedPlayer(player));
 	}
 	
+	public EntityPlayer getPlayer()
+	{
+		return player;
+	}
+	
 	public static void saveProxyData(EntityPlayer player) 
 	{
 		MainExtendedPlayer playerData = MainExtendedPlayer.get(player);
@@ -47,8 +52,8 @@ public class MainExtendedPlayer implements IExtendedEntityProperties
 	{
 		MainExtendedPlayer playerData = MainExtendedPlayer.get(player);
 		NBTTagCompound savedData = CommonProxy.getEntityData(getSaveKey(player));
-		if (savedData != null){ playerData.loadNBTData(savedData); }
-		Main.packetPipeline.sendToServer(new PacketSync(playerData));
+		if (savedData != null)
+			playerData.loadNBTData(savedData); 
 	}
 	
 	public static final MainExtendedPlayer get(EntityPlayer player)
@@ -63,6 +68,9 @@ public class MainExtendedPlayer implements IExtendedEntityProperties
 		NBTTagCompound nbt = new NBTTagCompound();
 	
 		nbt.setString("AkumaNoMiUsed", this.akumaNoMiUsed);
+		nbt.setBoolean("isLogia", this.isLogia);
+		nbt.setInteger("zoanType", this.zoanType);
+		nbt.setInteger("hakiExp", this.hakiExp);
 		
 		nbt.setInteger("Doriki", this.doriki);
 		nbt.setInteger("Bounty", this.bounty);
@@ -70,7 +78,7 @@ public class MainExtendedPlayer implements IExtendedEntityProperties
 		
 		nbt.setString("Faction", this.faction);
 		nbt.setString("Race", this.race);
-		nbt.setString("Job", this.job);
+		nbt.setString("Job", this.job);		
 		
 		compound.setTag("ExtendedPlayer", nbt);
 	}
@@ -81,6 +89,9 @@ public class MainExtendedPlayer implements IExtendedEntityProperties
 		NBTTagCompound nbt = (NBTTagCompound)compound.getTag("ExtendedPlayer");
 
 		this.akumaNoMiUsed = nbt.getString("AkumaNoMiUsed");
+		this.isLogia = nbt.getBoolean("isLogia");
+		this.zoanType = nbt.getInteger("zoanType");
+		this.hakiExp = nbt.getInteger("hakiExp");
 		
 		this.doriki = nbt.getInteger("Doriki");
 		this.bounty = nbt.getInteger("Bounty");
@@ -89,8 +100,24 @@ public class MainExtendedPlayer implements IExtendedEntityProperties
 		this.faction = nbt.getString("Faction");
 		this.race = nbt.getString("Race");
 		this.job = nbt.getString("Job");
+
 	}
 
+	public int getHakiExp()
+	{return this.hakiExp;}
+	public void addHakiExp(int i)
+	{this.hakiExp += i;}
+	
+	public int getZoanType()
+	{return this.zoanType;}
+	public void setZoanType(int i)
+	{this.zoanType = i;}
+	
+	public boolean isLogia()
+	{return this.isLogia;}
+	public void setIsLogia(boolean i)
+	{this.isLogia = i;}
+	
 	public String getJob()
 	{return this.job;}
 	public void setJob(String i)
@@ -146,7 +173,7 @@ public class MainExtendedPlayer implements IExtendedEntityProperties
 		this.setFaction("N/A");
 		this.setRace("N/A");
 		this.setJob("N/A");
-		Main.packetPipeline.sendTo(new PacketSync(player), (EntityPlayerMP)player);
+		this.setIsLogia(false);
+		this.setUsedFruit("N/A");
 	}
-
 }

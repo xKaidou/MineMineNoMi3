@@ -5,7 +5,11 @@ import net.minecraft.world.World;
 
 public class DatabaseParticles
 {
-
+	public static void renderSmoke(Entity e)
+	{
+		e.worldObj.spawnParticle("largesmoke", e.posX + 0.2D, e.posY, e.posZ, 0.0D, 0.0D, 0.0D);
+	}
+	
 	public static void renderVulcan(Entity e)
 	{
 		e.worldObj.spawnParticle("flame", e.posX + 0.2D, e.posY, e.posZ, -0.05D, 0.03D, 0.05D);

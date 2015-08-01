@@ -12,9 +12,6 @@ public class MainItem extends Item
 	
 	public void registerIcons(IIconRegister reg)
 	{
-		if(!Config.hdTextures_actual)
-			this.itemIcon = reg.registerIcon("mineminenomi:old/" + this.getUnlocalizedName().substring(5));
-		else
-			this.itemIcon = reg.registerIcon("mineminenomi:new/" + this.getUnlocalizedName().substring(5));			
+		this.itemIcon = reg.registerIcon("mineminenomi:old/" + this.getUnlocalizedName().substring(5));	
 	} 	
 }

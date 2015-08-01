@@ -17,7 +17,7 @@ import MineMineNoMi3.Utils.EnumFruitType;
 public class AkumaNoMi extends MainFood
 {
 
-	private EnumFruitType type;
+	public EnumFruitType type;
 	private Potion effect;
 	private Item ability1, ability2, ability3, ability4;
 	
@@ -33,30 +33,32 @@ public class AkumaNoMi extends MainFood
 		this.setCreativeTab(ListCreativeTabs.tab1);
 	}
 	
-	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,EntityPlayer par3EntityPlayer) 
+	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) 
 	{
-		par3EntityPlayer.setItemInUse(par1ItemStack, getMaxItemUseDuration(par1ItemStack));
-		return par1ItemStack;
+		player.setItemInUse(itemStack, getMaxItemUseDuration(itemStack));
+		return itemStack;
 	}
 	
-	public ItemStack onEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) 
+	public ItemStack onEaten(ItemStack itemStack, World world, EntityPlayer player) 
 	{
-		MainExtendedPlayer props = MainExtendedPlayer.get(par3EntityPlayer);
-		props.setUsedFruit(this.effect.getName().substring(7).toString());		
-		par3EntityPlayer.addPotionEffect(new PotionEffect(this.effect.id, (int)Float.POSITIVE_INFINITY));
+		MainExtendedPlayer props = MainExtendedPlayer.get(player);
+		props.setUsedFruit(this.effect.getName().substring(7).toString());	
+		if(this.type == EnumFruitType.LOGIA)
+			props.setIsLogia(true);
+		player.addPotionEffect(new PotionEffect(this.effect.id, (int)Float.POSITIVE_INFINITY));
 		if(this.ability1 != null)
-			par3EntityPlayer.inventory.addItemStackToInventory(new ItemStack(this.ability1));
+			player.inventory.addItemStackToInventory(new ItemStack(this.ability1));
 		if(this.ability2 != null)
-			par3EntityPlayer.inventory.addItemStackToInventory(new ItemStack(this.ability2));
+			player.inventory.addItemStackToInventory(new ItemStack(this.ability2));
 		if(this.ability3 != null)
-			par3EntityPlayer.inventory.addItemStackToInventory(new ItemStack(this.ability3));
+			player.inventory.addItemStackToInventory(new ItemStack(this.ability3));
 		if(this.ability4 != null)
-			par3EntityPlayer.inventory.addItemStackToInventory(new ItemStack(this.ability4));
-		par1ItemStack.stackSize--;
+			player.inventory.addItemStackToInventory(new ItemStack(this.ability4));
+		itemStack.stackSize--;
 		return null;
 	}
 	
-	public void addInformation(ItemStack item, EntityPlayer player, List list, boolean par4)
+	public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean par4)
 	{
 		if(this.ability1 != null)
 			list.add(this.ability1.getItemStackDisplayName(new ItemStack(ability1)));  

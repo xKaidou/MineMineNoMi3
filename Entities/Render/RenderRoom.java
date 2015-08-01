@@ -19,7 +19,7 @@ public class RenderRoom extends RenderPlayer
 	protected void passSpecialRender(EntityLivingBase parEntity, double parX, double parY, double parZ)
 	{
 		super.passSpecialRender(parEntity, parX, parY, parZ);
-		GL11.glPushMatrix();
+		/*GL11.glPushMatrix();
 		GL11.glTranslated(parX, parY + parEntity.height / 2, parZ);
 		GL11.glScalef(3.0F, 3.0F, 3.0F);
 		GL11.glEnable(GL11.GL_BLEND);
@@ -31,7 +31,7 @@ public class RenderRoom extends RenderPlayer
 		GL11.glCallList(ClientProxy.sphereIdOutside);
 
 		GL11.glCallList(ClientProxy.sphereIdInside);
-		GL11.glPopMatrix();
+		GL11.glPopMatrix();*/
 	}
 	
 }

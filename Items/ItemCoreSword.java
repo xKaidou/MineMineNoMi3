@@ -1,20 +1,32 @@
 package MineMineNoMi3.Items;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+
+import net.minecraft.block.BlockDirt;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
-import MineMineNoMi3.Helper;
+import net.minecraftforge.common.util.EnumHelper;
+import MineMineNoMi3.MainExtendedEntity;
 import MineMineNoMi3.MainExtendedPlayer;
-import MineMineNoMi3.Entities.Groups.Special.EntityRoom;
-import MineMineNoMi3.Entities.Models.ModelX;
-import MineMineNoMi3.Entities.Render.RenderMobType;
+import MineMineNoMi3.Blocks.TileEntities.TileEntityOpe;
+import MineMineNoMi3.Entities.Projectile;
+import MineMineNoMi3.Entities.Base.INoShadow;
+import MineMineNoMi3.Lists.ListMisc;
+import MineMineNoMi3.Lists.ListPotions;
+import MineMineNoMi3.Utils.EnumAbility;
 
 import com.google.common.collect.Multimap;
 
@@ -25,28 +37,58 @@ public class ItemCoreSword extends ItemSword
 {
 	
 	public double weaponDamage;
-	private final Item.ToolMaterial toolMaterial;
-
-	public ItemCoreSword(Item.ToolMaterial material)
+	private int ticks, use;
+	
+	public ItemCoreSword(int dmg)
 	{
-		super(material);
-		this.toolMaterial = material;
+		super(EnumHelper.addToolMaterial("BASE", 0, dmg * 100, 0, dmg - 4, 0));
 		this.maxStackSize = 1;
-		this.weaponDamage = material.getDamageVsEntity();
-		this.setMaxDamage((int)Float.POSITIVE_INFINITY);
+		this.weaponDamage = EnumHelper.addToolMaterial("BASE", 0, dmg * 100, 0, dmg - 4, 0).getDamageVsEntity();
+		this.setMaxDamage(dmg * 100);
 	}  	
 
-	public boolean itemInteractionForEntity(ItemStack itemstack, EntityPlayer player, EntityLivingBase entity)
+	public boolean itemInteractionForEntity(ItemStack itemStack, EntityPlayer player, EntityLivingBase entity)
 	{	
+		if(!player.worldObj.isRemote && player.getCurrentEquippedItem().getItem()==ListMisc.Scissors && player.isPotionActive(ListPotions.kagekage))
+		{
+			MainExtendedEntity propz = MainExtendedEntity.get(entity);
+			
+			if (!(entity instanceof INoShadow) && propz.hasShadow()) 
+	    	{
+	    		Random rand = new Random();
+	    		EntityItem shadow = entity.entityDropItem(new ItemStack(ListMisc.Shadow), 1.0F);
+	    		shadow.motionY += rand.nextFloat() * 0.05F;
+	    		shadow.motionX += (rand.nextFloat() - rand.nextFloat()) * 0.1F;
+	    		shadow.motionZ += (rand.nextFloat() - rand.nextFloat()) * 0.1F;
+	    		itemStack.damageItem(100, entity);
+	    		propz.setHasShadow(false);			
+			}
+		}	
     	return false;
 	}
 
-    public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
+    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player)
     {
-    	par3EntityPlayer.setItemInUse(par1ItemStack, this.getMaxItemUseDuration(par1ItemStack));
-    	MainExtendedPlayer props = MainExtendedPlayer.get(par3EntityPlayer);    	
+    	player.setItemInUse(itemStack, this.getMaxItemUseDuration(itemStack));
+    	MainExtendedPlayer props = MainExtendedPlayer.get(player);  
 
-        return par1ItemStack;
+		if(!itemStack.hasTagCompound())
+		{
+			itemStack.setTagCompound(new NBTTagCompound());
+
+			itemStack.stackTagCompound.setInteger("ticks", this.ticks);
+			itemStack.stackTagCompound.setInteger("ticksfin", this.ticks);
+			itemStack.stackTagCompound.setInteger("use", this.use);
+		}
+    	
+    	if(player.isPotionActive(ListPotions.opeope) && itemStack.stackTagCompound.getInteger("use") == 0)
+    	{
+    		world.spawnEntityInWorld(new Projectile(world, player, EnumAbility.OPEOPESLASH));	
+			itemStack.stackTagCompound.setInteger("use", 1);
+			itemStack.stackTagCompound.setInteger("ticks", EnumAbility.OPEOPESLASH.getItemTicks());
+    	}
+    	
+    	return itemStack;
     }
     
 	public boolean hitEntity(ItemStack par1ItemStack, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase)
@@ -54,18 +96,28 @@ public class ItemCoreSword extends ItemSword
 		return true;  
 	}
     
-    public void onUpdate(ItemStack itemStack, World par2World, Entity par3Entity, int par4, boolean par5)
+    public void onUpdate(ItemStack itemStack, World world, Entity entity, int par4, boolean par5) 
     {
-
+		if (itemStack.stackTagCompound != null) 
+		{
+			int t = itemStack.stackTagCompound.getInteger("ticks");      
+			int tf = itemStack.stackTagCompound.getInteger("ticksfin");    
+			int u = itemStack.stackTagCompound.getInteger("use");
+			tf = t;
+			if(u == 1 && t > 0)
+			{
+				t--;
+				itemStack.stackTagCompound.setInteger("ticks", t);	
+			}
+			else if(t <= 0)
+			{
+				itemStack.stackTagCompound.setInteger("use", 0);
+				itemStack.stackTagCompound.setInteger("ticks", tf);
+			}
+		}
     }
-    
-    
-    
-    
-	public void onCreated(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) 
-	{
-
-	}
+   
+	public void onCreated(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {}
     
 	@SideOnly(Side.CLIENT)
 	public boolean isFull3D()
