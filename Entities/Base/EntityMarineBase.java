@@ -3,8 +3,6 @@ package MineMineNoMi3.Entities.Base;
 import java.util.Iterator;
 import java.util.List;
 
-import net.minecraft.entity.IRangedAttackMob;
-import net.minecraft.entity.ai.EntityAIArrowAttack;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
@@ -20,8 +18,9 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import MineMineNoMi3.MainExtendedPlayer;
+import MineMineNoMi3.Utils.IOnePieceMob;
 
-public class EntityMarineBase extends EntityMob
+public class EntityMarineBase extends EntityMob implements IOnePieceMob
 {
 	
 	public EntityMarineBase(World arg0) 
@@ -45,9 +44,9 @@ public class EntityMarineBase extends EntityMob
 	{
 		super.onEntityUpdate();
 		int d0 = 25;
-		AxisAlignedBB axisalignedbb = AxisAlignedBB.getBoundingBox((double)this.posX, (double)this.posY, (double)this.posZ, (double)(this.posX + 1), (double)(this.posY + 1), (double)(this.posZ + 1)).expand(d0, d0, d0);
-		axisalignedbb.maxY = (double)this.worldObj.getHeight();
-		List<EntityPlayer> list = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, axisalignedbb);
+		AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox((double)this.posX, (double)this.posY, (double)this.posZ, (double)(this.posX + 1), (double)(this.posY + 1), (double)(this.posZ + 1)).expand(d0, d0, d0);
+		aabb.maxY = (double)this.worldObj.getHeight();
+		List<EntityPlayer> list = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, aabb);
 		Iterator<EntityPlayer> iterator = list.iterator();
 		EntityPlayer entity;
 		while(iterator.hasNext())
@@ -56,6 +55,7 @@ public class EntityMarineBase extends EntityMob
 			MainExtendedPlayer props = MainExtendedPlayer.get(entity);
 			if(!props.getFaction().equals("Marine") && !((EntityPlayer)entity).capabilities.isCreativeMode)
 			{
+				this.tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, false));
 				 /*if(this instanceof EntityMarineGun)
 					  this.tasks.addTask(1, new EntityAIArrowAttack((IRangedAttackMob)this, 1.0D, 20, 60, 15.0F));
 				  else
@@ -81,5 +81,18 @@ public class EntityMarineBase extends EntityMob
 	
 	public boolean getCanSpawnHere()
 	{return true;}
+
+	public boolean isLogia() 
+	{return false;}
+
+	public boolean hasShadow() 
+	{return true;}
+
+	public boolean hasHaki() 
+	{return false;}
+
+	public boolean isDevilFruitUser() 
+	{return false;}
+	
 
 }

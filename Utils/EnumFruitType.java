@@ -8,9 +8,11 @@ public enum EnumFruitType
 	PARAMECIA		(EnumChatFormatting.RED			, "Paramecia"),
 	LOGIA			(EnumChatFormatting.YELLOW		, "Logia"),
 	MYTHICALZOAN	(EnumChatFormatting.AQUA		, "Mythical Zoan"),
-	ANCIENTZOAN		(EnumChatFormatting.GREEN		, "Ancient Zoan"),
-	ARTIFICIALZOAN	(EnumChatFormatting.LIGHT_PURPLE, "Artificial Zoan"),
-	ZOAN			(EnumChatFormatting.GREEN		, "Zoan");
+	ZOAN			(EnumChatFormatting.GREEN		, "Zoan"),
+	ARTIFICIALLOGIA	(EnumChatFormatting.GOLD		, "Artificial Logia"),
+	ARTIFICIALPARAM	(EnumChatFormatting.GOLD		, "Artificial Paramecia"),
+	ARTIFICIALZOAN	(EnumChatFormatting.GOLD		, "Artificial Zoan");
+	
 	
 	private EnumChatFormatting color;
 	private String name;

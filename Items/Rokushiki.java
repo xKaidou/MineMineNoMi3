@@ -9,7 +9,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 import MineMineNoMi3.MainItem;
 import MineMineNoMi3.Entities.Projectile;
-import MineMineNoMi3.Utils.EnumAbility;
+import MineMineNoMi3.Utils.AbilityAttribute;
 
 public class Rokushiki extends MainItem
 {
@@ -49,16 +49,16 @@ public class Rokushiki extends MainItem
 		
 		if(this.type.equals("rankyaku") && itemStack.stackTagCompound.getInteger("use") == 0)
 		{
-			world.spawnEntityInWorld(new Projectile(world, player, EnumAbility.RANKYAKU));
+			world.spawnEntityInWorld(new Projectile(world, player, AbilityAttribute.RANKYAKU));
 			itemStack.stackTagCompound.setInteger("use", 1);
-			itemStack.stackTagCompound.setInteger("ticks", EnumAbility.RANKYAKU.getItemTicks());
+			itemStack.stackTagCompound.setInteger("ticks", AbilityAttribute.RANKYAKU.getItemTicks());
 		}
 	
 		if(this.type.equals("shigan") && itemStack.stackTagCompound.getInteger("use") == 0)
 		{
-			world.spawnEntityInWorld(new Projectile(world, player, EnumAbility.SHIGAN));
+			world.spawnEntityInWorld(new Projectile(world, player, AbilityAttribute.SHIGAN));
 			itemStack.stackTagCompound.setInteger("use", 1);
-			itemStack.stackTagCompound.setInteger("ticks", EnumAbility.SHIGAN.getItemTicks());
+			itemStack.stackTagCompound.setInteger("ticks", AbilityAttribute.SHIGAN.getItemTicks());
 		}
 		
 		if(this.type.equals("geppo") && itemStack.stackTagCompound.getInteger("use") == 0)

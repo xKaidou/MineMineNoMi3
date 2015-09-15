@@ -5,23 +5,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.stats.Achievement;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.world.Explosion;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import MineMineNoMi3.Entities.Projectile;
-import MineMineNoMi3.Utils.CustomExplosion;
+import MineMineNoMi3.Lists.ListMisc;
 
 public class Helper 
 {
@@ -29,6 +27,7 @@ public class Helper
 	public static List<Item> devilfruits = new ArrayList();
 	public static List<Item> logias = new ArrayList();
 	public static List<Item> dfsInWorld = new ArrayList();
+	public static List<Object[]> customDFs = new ArrayList();
 	public static final int MAX_DORIKI = 10000;
 	public static final int MAX_BOUNTY = 999999999;
 	public static final int MAX_BELLY = 999999999;
@@ -68,37 +67,6 @@ public class Helper
 	        outputString = outputString+colorChar[rand.nextInt(stringLength)%10]+parString.substring(i, i+1);
 	    }
 	    return outputString;
-	}
-	
-	public static Explosion explosion(Entity e, float force, boolean normal, boolean griefing)
-    {
-		if(normal)
-		{
-			if(e instanceof Projectile)
-			{
-				if(((Projectile) e).proj.getEntityAttr() != null)
-				{			
-					for(int i = 0; i < ((Projectile) e).proj.getEntityAttr().length; i++)
-					{
-						String attr = ((Projectile) e).proj.getEntityAttr()[i];
-						
-						if(attr.equals("create_fireblock"))
-							e.worldObj.newExplosion(e, e.posX, e.posY, e.posZ, force, true, griefing);	
-						else
-							e.worldObj.newExplosion(e, e.posX, e.posY, e.posZ, force, false, griefing);
-					}
-				}
-			}
-			else
-				e.worldObj.newExplosion(e, e.posX, e.posY, e.posZ, force, false, griefing);
-			return null;
-		}
-		else
-		{
-			CustomExplosion explosion = new CustomExplosion(e.worldObj, e, e.posX, e.posY, e.posZ, force);
-			explosion.doExplosionA();
-			return explosion;
-		}
 	}
 	
 	public static int hexToInt(String hexColor)
@@ -146,5 +114,5 @@ public class Helper
     	OpenGlHelper.setActiveTexture(OpenGlHelper.lightmapTexUnit);
     	GL11.glDisable(GL11.GL_TEXTURE_2D);
     	OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
-	}	
+	}
 }

@@ -1,12 +1,14 @@
 package MineMineNoMi3;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
-import MineMineNoMi3.Packets.PacketSync;
 import MineMineNoMi3.Proxy.CommonProxy;
 
 public class MainExtendedPlayer implements IExtendedEntityProperties
@@ -15,10 +17,9 @@ public class MainExtendedPlayer implements IExtendedEntityProperties
 	public static final String EXT_PROP_NAME = "ExtendedPlayer";
 	private EntityPlayer player;
 	
-	private int doriki, bounty, belly, zoanType, hakiExp;
-	private String faction = "N/A", race = "N/A", job = "N/A", quest = "N/A";
-	private boolean hasFruitEffect, isLogia, hasShadow = true, hasHeart = true;
-	private String akumaNoMiUsed = "N/A";
+	private int doriki, bounty, belly, hakiExp;
+	private String akumaNoMiUsed = "N/A", faction = "N/A", race = "N/A", job = "N/A", quest = "N/A";
+	private boolean isLogia, hasShadow = true, hasHeart = true;
 	
 	public MainExtendedPlayer(EntityPlayer player)
 	{
@@ -66,12 +67,11 @@ public class MainExtendedPlayer implements IExtendedEntityProperties
 	public void saveNBTData(NBTTagCompound compound)
 	{
 		NBTTagCompound nbt = new NBTTagCompound();
-	
+		
 		nbt.setString("AkumaNoMiUsed", this.akumaNoMiUsed);
 		nbt.setBoolean("isLogia", this.isLogia);
-		nbt.setInteger("zoanType", this.zoanType);
 		nbt.setInteger("hakiExp", this.hakiExp);
-		
+
 		nbt.setInteger("Doriki", this.doriki);
 		nbt.setInteger("Bounty", this.bounty);
 		nbt.setInteger("Belly", this.belly);
@@ -90,7 +90,6 @@ public class MainExtendedPlayer implements IExtendedEntityProperties
 
 		this.akumaNoMiUsed = nbt.getString("AkumaNoMiUsed");
 		this.isLogia = nbt.getBoolean("isLogia");
-		this.zoanType = nbt.getInteger("zoanType");
 		this.hakiExp = nbt.getInteger("hakiExp");
 		
 		this.doriki = nbt.getInteger("Doriki");
@@ -100,19 +99,14 @@ public class MainExtendedPlayer implements IExtendedEntityProperties
 		this.faction = nbt.getString("Faction");
 		this.race = nbt.getString("Race");
 		this.job = nbt.getString("Job");
-
+		
 	}
-
+	
 	public int getHakiExp()
 	{return this.hakiExp;}
 	public void addHakiExp(int i)
 	{this.hakiExp += i;}
-	
-	public int getZoanType()
-	{return this.zoanType;}
-	public void setZoanType(int i)
-	{this.zoanType = i;}
-	
+
 	public boolean isLogia()
 	{return this.isLogia;}
 	public void setIsLogia(boolean i)

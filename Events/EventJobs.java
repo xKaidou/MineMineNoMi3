@@ -38,7 +38,7 @@ public class EventJobs
 			EntityPlayer player = (EntityPlayer)event.entityLiving;
 			MainExtendedPlayer props = MainExtendedPlayer.get(player);
 			ItemStack heldItem = player.getCurrentEquippedItem();
-			
+
 			if(heldItem != null)
 			{	
 				if(props.getJob().equals("Swordsman") && heldItem.getItem() instanceof ItemSword)

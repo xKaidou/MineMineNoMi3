@@ -18,8 +18,9 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import MineMineNoMi3.MainExtendedPlayer;
+import MineMineNoMi3.Utils.IOnePieceMob;
 
-public class EntityPirateBase extends EntityMob
+public class EntityPirateBase extends EntityMob implements IOnePieceMob
 {
 	
 	public EntityPirateBase(World arg0) 
@@ -60,4 +61,15 @@ public class EntityPirateBase extends EntityMob
 	public boolean getCanSpawnHere()
 	{return true;}
 
+	public boolean isLogia() 
+	{return false;}
+
+	public boolean hasShadow() 
+	{return true;}
+	
+	public boolean hasHaki() 
+	{return false;}
+	
+	public boolean isDevilFruitUser() 
+	{return false;}
 }

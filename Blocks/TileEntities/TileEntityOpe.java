@@ -15,8 +15,6 @@ public class TileEntityOpe extends TileEntity
 	{
 		this.checkPlayers();
 	}
-
-	
 	
 	public void checkPlayers()
 	{

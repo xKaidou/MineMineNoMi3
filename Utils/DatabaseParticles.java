@@ -186,6 +186,14 @@ public class DatabaseParticles
 		e.worldObj.spawnParticle("dripWater", e.posX - 0.2D, e.posY + 0.1D, e.posZ, -0.05D, -0.03D, 0.05D);
 		e.worldObj.spawnParticle("magicCrit", e.posX - 0.4D, e.posY + 0.2D, e.posZ, -0.05D, -0.03D, 0.05D);
 		e.worldObj.spawnParticle("dripWater", e.posX - 0.1D, e.posY - 0.2D, e.posZ, -0.05D, -0.03D, 0.05D);
+		
+		e.worldObj.spawnParticle("splash", e.posX - 0.1D, e.posY + 0.3D, e.posZ, 0.05D, +0.03D, +0.02D);
+		e.worldObj.spawnParticle("magicCrit", e.posX + 0.4D, e.posY - 0.2D, e.posZ, 0.05D, -0.03D, -0.05D);
+		e.worldObj.spawnParticle("splash", e.posX + 0.4D, e.posY - 0.2D, e.posZ, 0.05D, -0.03D, -0.05D);
+	  
+		e.worldObj.spawnParticle("magicCrit", e.posX - 0.2D, e.posY + 0.5D, e.posZ, -0.02D, 0.03D, -0.05D);
+		e.worldObj.spawnParticle("magicCrit", e.posX - 0.4D, e.posY - 0.2D, e.posZ, -0.01D, -0.03D, -0.01D);
+		e.worldObj.spawnParticle("magicCrit", e.posX + 0.1D, e.posY + 0.1D, e.posZ, 0.05D, -0.01D, -0.04D);
 	}
 
 	public static void renderFire(Entity e)

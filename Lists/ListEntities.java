@@ -1,6 +1,6 @@
 package MineMineNoMi3.Lists;
 
-import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
 import MineMineNoMi3.Helper;
 import MineMineNoMi3.Main;
@@ -24,11 +24,6 @@ public class ListEntities
 		EntityRegistry.registerModEntity(Projectile.class, "Proj", 1, Main.instance , 64, 10, true);
 	}
 
-	private static void addENTITY(String name, Class<? extends Entity> entity)
-	{
-		addENTITY(name, entity, -1, -1);
-	}
-	
 	private static void addENTITY(String name, Class<? extends Entity> entity, int color1, int color2)
 	{
 		if(color1 != -1 && color2 != -1)

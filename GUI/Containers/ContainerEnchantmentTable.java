@@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
 import MineMineNoMi3.Lists.ListMisc;
-import MineMineNoMi3.Lists.ListPotions;
+import MineMineNoMi3.Lists.ListEffects;
 
 public class ContainerEnchantmentTable extends Container
 {	
@@ -81,11 +81,13 @@ public class ContainerEnchantmentTable extends Container
 				        if(mat == ListMisc.DialFire)	
 				        	itemStack.addEnchantment(Enchantment.fireAspect, 1);
 				        if(mat == ListMisc.DialImpact)	
-				        	itemStack.addEnchantment(ListPotions.dialImpact, 1);
+				        	itemStack.addEnchantment(ListEffects.dialImpact, 1);
 				        if(mat == ListMisc.DialEisen)	
 				        	itemStack.addEnchantment(Enchantment.sharpness, 2);
 				        if(mat == ListMisc.DialBreath)
 				        	itemStack.addEnchantment(Enchantment.knockback, 2);
+				        if(mat == ListMisc.Kairoseki)
+				        	itemStack.addEnchantment(ListEffects.kairoseki, 1);
 				        if(mat == ListMisc.BlackMetal)	
 				        {
 				        	itemStack.addEnchantment(Enchantment.sharpness, 10);

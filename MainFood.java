@@ -13,6 +13,6 @@ public class MainFood extends ItemFood
 	
 	public void registerIcons(IIconRegister reg)
 	{
-		this.itemIcon = reg.registerIcon("mineminenomi:old/" + this.getUnlocalizedName().substring(5));
+		this.itemIcon = reg.registerIcon("mineminenomi:" + this.getUnlocalizedName().substring(5));
 	} 	
 }

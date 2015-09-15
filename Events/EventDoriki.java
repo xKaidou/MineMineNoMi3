@@ -10,19 +10,44 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import MineMineNoMi3.Helper;
 import MineMineNoMi3.Main;
 import MineMineNoMi3.MainExtendedPlayer;
 import MineMineNoMi3.Entities.Base.EntityMarineBase;
 import MineMineNoMi3.Lists.ListMisc;
 import MineMineNoMi3.Packets.PacketSync;
-import MineMineNoMi3.Utils.CustomEventGainDoriki;
+import MineMineNoMi3.Utils.EventGainDoriki;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class EventDoriki 
 {
 
+	@SubscribeEvent
+	public void onTest(LivingHurtEvent event)
+	{
+
+	}
+	
+	@SubscribeEvent
+	public void onLivingUpdate(LivingUpdateEvent event)
+	{
+		if (event.entityLiving instanceof EntityPlayer)
+		{	
+			EntityPlayer player = (EntityPlayer)event.entityLiving;
+			MainExtendedPlayer props = MainExtendedPlayer.get(player);
+
+			int extraHP = (int)Math.pow(Math.log(props.getDoriki()+1), 3)/2;
+
+			if(extraHP < 20)
+				player.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(20);
+			else
+				player.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(extraHP);
+		}
+	}
+	
 	@SubscribeEvent
 	public void onPlayerDeath(LivingAttackEvent event)
 	{
@@ -57,7 +82,7 @@ public class EventDoriki
 				{
 					MainExtendedPlayer targetprops = MainExtendedPlayer.get((EntityPlayer) target);
 					
-					props.addDoriki((targetprops.getDoriki()/3)+rng);
+					props.addDoriki((targetprops.getDoriki()/3) + rng);
 					props.addBelly(targetprops.getBelly());
 					if(props.getFaction().equals("Pirate") && targetprops.getFaction().equals("Pirate"))
 						props.addBounty(targetprops.getBounty()/2);
@@ -67,7 +92,7 @@ public class EventDoriki
 					if(props.getFaction().equals("Marine") && target instanceof EntityMarineBase)
 						return;	
 					
-					if((int)Math.round(((i + j)/10)/Math.PI)+rng > 0)
+					if((int)Math.round(((i + j)/10)/Math.PI) + rng > 0)
 						props.addDoriki((int)Math.round(((i + j)/10)/Math.PI)+rng);
 				}
 				
@@ -111,7 +136,7 @@ public class EventDoriki
 	}
 	
 	@SubscribeEvent
-	public void onDorikiGained(CustomEventGainDoriki event)
+	public void onDorikiGained(EventGainDoriki event)
 	{
 		if(event.props.getDoriki() >= 500 && !event.player.inventory.hasItem(ListMisc.Soru))
 			event.player.inventory.addItemStackToInventory(new ItemStack(ListMisc.Soru));

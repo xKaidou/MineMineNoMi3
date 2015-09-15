@@ -22,5 +22,16 @@ public class EntityMarine extends EntityMarineBase
 		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.23000000417232513D); 
 		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(20.0D);   	
 	}
- 
+
+	public boolean isLogia() 
+	{return false;}
+
+	public boolean hasShadow() 
+	{return true;}
+	
+	public boolean hasHaki() 
+	{return false;}
+	
+	public boolean isDevilFruitUser() 
+	{return false;}
 }

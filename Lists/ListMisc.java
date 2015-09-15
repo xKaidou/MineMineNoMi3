@@ -20,7 +20,7 @@ import MineMineNoMi3.Items.Haki;
 import MineMineNoMi3.Items.ItemCoreArmor;
 import MineMineNoMi3.Items.ItemCoreSword;
 import MineMineNoMi3.Items.Rokushiki;
-import MineMineNoMi3.Utils.EnumToolMaterials;
+import MineMineNoMi3.Utils.EnumToolMats;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
@@ -68,14 +68,14 @@ public class ListMisc
 	public static Item KairosekiBullets = new MainItem();
 	public static Item KujaArrow = new MainItem();
 	
-	public static Item MarineHelm = new ItemCoreArmor(EnumToolMaterials.marine_armor, 0);
-	public static Item MarineChestplate = new ItemCoreArmor(EnumToolMaterials.marine_armor, 1);
-	public static Item MarineLeggings = new ItemCoreArmor(EnumToolMaterials.marine_armor, 2);
-	public static Item MarineBoots = new ItemCoreArmor(EnumToolMaterials.marine_armor, 3);
+	public static Item MarineHelm = new ItemCoreArmor(EnumToolMats.marine_armor, 0);
+	public static Item MarineChestplate = new ItemCoreArmor(EnumToolMats.marine_armor, 1);
+	public static Item MarineLeggings = new ItemCoreArmor(EnumToolMats.marine_armor, 2);
+	public static Item MarineBoots = new ItemCoreArmor(EnumToolMats.marine_armor, 3);
 	
-	public static Item PirateChestplate = new ItemCoreArmor(EnumToolMaterials.pirate_armor, 1);
-	public static Item PirateLeggings = new ItemCoreArmor(EnumToolMaterials.pirate_armor, 2);
-	public static Item PirateBoots = new ItemCoreArmor(EnumToolMaterials.pirate_armor, 3);
+	public static Item PirateChestplate = new ItemCoreArmor(EnumToolMats.pirate_armor, 1);
+	public static Item PirateLeggings = new ItemCoreArmor(EnumToolMats.pirate_armor, 2);
+	public static Item PirateBoots = new ItemCoreArmor(EnumToolMats.pirate_armor, 3);
 	
 	public static Item MarineSword = new ItemCoreSword(5);
 	public static Item PirateCutlass = new ItemCoreSword(5);
@@ -151,7 +151,7 @@ public class ListMisc
 	private static void addITEM(Item item,String localizedName, CreativeTabs tab)
 	{	
 		String truename = localizedName.replaceAll("\\s+","").replaceAll("'", "").replaceAll("-", "").toLowerCase();
-		item.setUnlocalizedName(truename).setTextureName("mineminenomi:old/"+truename).setCreativeTab(tab);	
+		item.setUnlocalizedName(truename).setTextureName("mineminenomi:"+truename).setCreativeTab(tab);	
 		GameRegistry.registerItem(item, truename);
 		LanguageRegistry.addName(item, localizedName);
 	}

@@ -8,7 +8,7 @@ import MineMineNoMi3.Main;
 import MineMineNoMi3.MainExtendedPlayer;
 import MineMineNoMi3.Entities.Projectile;
 import MineMineNoMi3.Lists.ListMisc;
-import MineMineNoMi3.Utils.EnumAbility;
+import MineMineNoMi3.Utils.AbilityAttribute;
 import cpw.mods.fml.common.network.ByteBufUtils;
 
 public class PacketPlayer extends AbstractPacket
@@ -39,7 +39,7 @@ public class PacketPlayer extends AbstractPacket
 			String cmd = this.cmd.substring(11);
 			
 			if(cmd.equals("daienkaientei"))
-				player.worldObj.spawnEntityInWorld(new Projectile(player.worldObj, player, EnumAbility.DAIENKAIENTEI));
+				player.worldObj.spawnEntityInWorld(new Projectile(player.worldObj, player, AbilityAttribute.DAIENKAIENTEI));
 		}
 	}
 
@@ -56,7 +56,7 @@ public class PacketPlayer extends AbstractPacket
 			String cmd = this.cmd.substring(11);
 			
 			if(cmd.equals("daienkaientei"))
-				player.worldObj.spawnEntityInWorld(new Projectile(player.worldObj, player, EnumAbility.DAIENKAIENTEI));			
+				player.worldObj.spawnEntityInWorld(new Projectile(player.worldObj, player, AbilityAttribute.DAIENKAIENTEI));			
 		}
 		
 	}

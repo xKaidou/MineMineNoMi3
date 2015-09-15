@@ -8,7 +8,6 @@ import MineMineNoMi3.Events.EventDoriki;
 import MineMineNoMi3.Events.EventDrops;
 import MineMineNoMi3.Events.EventEnchantments;
 import MineMineNoMi3.Events.EventExtendedData;
-import MineMineNoMi3.Events.EventHaki;
 import MineMineNoMi3.Events.EventJobs;
 import MineMineNoMi3.Events.EventTicks;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -24,7 +23,6 @@ public class ListForge
 		MinecraftForge.EVENT_BUS.register(new EventEnchantments());
 		MinecraftForge.EVENT_BUS.register(new EventDoriki());
 		MinecraftForge.EVENT_BUS.register(new EventDrops());
-		MinecraftForge.EVENT_BUS.register(new EventHaki());
 		MinecraftForge.EVENT_BUS.register(new EventJobs());
 		
 		GameRegistry.registerWorldGenerator(new MainWorldGen(), 1);

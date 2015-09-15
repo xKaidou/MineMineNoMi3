@@ -1,16 +1,23 @@
 package MineMineNoMi3;
 
 import java.io.File;
+import java.io.IOException;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
+import MineMineNoMi3.Commands.CommandBelly;
+import MineMineNoMi3.Commands.CommandBounty;
 import MineMineNoMi3.Commands.CommandDoriki;
 import MineMineNoMi3.GUI.GUIHandler;
 import MineMineNoMi3.Lists.ListAchievements;
 import MineMineNoMi3.Lists.ListCreativeTabs;
 import MineMineNoMi3.Lists.ListDevilFruits;
+import MineMineNoMi3.Lists.ListEffects;
 import MineMineNoMi3.Lists.ListEntities;
 import MineMineNoMi3.Lists.ListForge;
 import MineMineNoMi3.Lists.ListMisc;
-import MineMineNoMi3.Lists.ListPotions;
 import MineMineNoMi3.Lists.ListRecipes;
 import MineMineNoMi3.Packets.PacketPipeline;
 import MineMineNoMi3.Proxy.CommonProxy;
@@ -23,7 +30,6 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 
 @Mod(modid = "mineminenomi", name = "Mine Mine no Mi", version = "0.3.0")
 
@@ -40,8 +46,8 @@ public class Main
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{	
-		ListPotions.expandPotions();
 		Config.initConfig(new File(event.getModConfigurationDirectory(), "mineminenomi3.cfg"));
+		//MainAPI.init(event);
 	}
 	
 	@EventHandler
@@ -50,13 +56,14 @@ public class Main
 		network.initialise();
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, guiHandler);
 		
+		ListDevilFruits.init();
+		ListMisc.init();
+		
 		proxy.render();
 		proxy.tick();
 		
-		ListPotions.init();
 		ListEntities.init();
-		ListMisc.init();
-		ListDevilFruits.init();
+		ListEffects.init();
 		ListCreativeTabs.init();
 		ListRecipes.init();
 		ListAchievements.init();
@@ -73,6 +80,8 @@ public class Main
 	public void serverInit(FMLServerStartingEvent event)
 	{
 		event.registerServerCommand(new CommandDoriki());
+		event.registerServerCommand(new CommandBelly());
+		event.registerServerCommand(new CommandBounty());
 	}
 	
 }

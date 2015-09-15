@@ -10,7 +10,8 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import MineMineNoMi3.MainItem;
 import MineMineNoMi3.Entities.Projectile;
-import MineMineNoMi3.Utils.EnumAbility;
+import MineMineNoMi3.Utils.DatabaseStructures;
+import MineMineNoMi3.Utils.AbilityAttribute;
 
 public class Dial extends MainItem
 {
@@ -29,7 +30,7 @@ public class Dial extends MainItem
 		boolean flag = !world.isRemote;
 		
 		if(this.type.equals("axe"))
-			world.spawnEntityInWorld(new Projectile(world, player, EnumAbility.AXEDIAL));
+			world.spawnEntityInWorld(new Projectile(world, player, AbilityAttribute.AXEDIAL));
 			
 		if(this.type.equals("reject") && flag)
 		{

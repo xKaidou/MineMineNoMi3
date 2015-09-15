@@ -18,6 +18,7 @@ public class GUIHandler implements IGuiHandler
 			case 0: return id == 0 && world.getBlock(x, y, z) == ListMisc.EnchantmentTable ? new GUIEnchantmentTable(player, world, x, y, z) : null;
 			case 1: return id == 1 ? new GUIPlayer(player) : null;
 			case 2: return id == 2 ? new GUICC(player) : null;
+			case 3: return id == 3 ? new GUIAbilities(player) : null;
 		}
 		return null;
 	}

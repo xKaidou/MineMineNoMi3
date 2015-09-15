@@ -12,11 +12,11 @@ import MineMineNoMi3.MainExtendedPlayer;
 import MineMineNoMi3.Packets.PacketSync;
 import MineMineNoMi3.Utils.EventGainDoriki;
 
-public class CommandDoriki extends CommandBase
+public class CommandBounty extends CommandBase
 {		
 	public String getCommandName()
 	{
-		return "doriki";
+		return "bounty";
 	}
 	
     public boolean canCommandSenderUseCommand(ICommandSender cmd)
@@ -44,14 +44,14 @@ public class CommandDoriki extends CommandBase
 
 			if(str[0].equals("+"))
 			{
-				if(Integer.decode(str[1]) + props.getDoriki() <= Helper.MAX_DORIKI)
+				if(Integer.decode(str[1]) + props.getDoriki() <= Helper.MAX_BOUNTY)
 				{
-					props.addDoriki(Integer.decode(str[1]));
+					props.addBounty(Integer.decode(str[1]));
 					Main.network.sendTo(new PacketSync(props), (EntityPlayerMP)player);
 				}
 				else
 				{
-					props.setDoriki(Helper.MAX_DORIKI);
+					props.setBounty(Helper.MAX_BOUNTY);
 					Main.network.sendTo(new PacketSync(props), (EntityPlayerMP)player);
 				}
 			}
@@ -59,12 +59,12 @@ public class CommandDoriki extends CommandBase
 			{
 				if(props.getDoriki() - Integer.decode(str[1]) <= 0)
 				{
-					props.setDoriki(0);
+					props.setBounty(0);
 					Main.network.sendTo(new PacketSync(props), (EntityPlayerMP)player);
 				}
 				else
 				{
-					props.decDoriki(Integer.decode(str[1]));
+					props.decBounty(Integer.decode(str[1]));
 					Main.network.sendTo(new PacketSync(props), (EntityPlayerMP)player);
 				}			
 			}
@@ -72,23 +72,20 @@ public class CommandDoriki extends CommandBase
 			{
 				if(str[1].equals("INF"))
 				{
-					props.setDoriki(Helper.MAX_DORIKI);
+					props.setBounty(Helper.MAX_BOUNTY);
 					Main.network.sendTo(new PacketSync(props), (EntityPlayerMP)player);				
 				}
-				else if(Integer.decode(str[1]) <= Helper.MAX_DORIKI)
+				else if(Integer.decode(str[1]) <= Helper.MAX_BOUNTY)
 				{
-					props.setDoriki(Integer.decode(str[1]));
+					props.setBounty(Integer.decode(str[1]));
 					Main.network.sendTo(new PacketSync(props), (EntityPlayerMP)player);
 				}	
 			}
-			
-	        EventGainDoriki event = new EventGainDoriki(player);
-	        MinecraftForge.EVENT_BUS.post(event);
 		}
 	}
 	  
 	public String getCommandUsage(ICommandSender icommandsender)
 	{
-		return "/doriki <+/-/=> <amount> [player]";
+		return "/bounty <+/-/=> <amount> [player]";
 	}
 }

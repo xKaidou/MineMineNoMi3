@@ -44,7 +44,6 @@ public class GUICC extends GuiScreen
 		int posX = (this.width - 256) / 2;
 		int posY = (this.height - 256) / 2;
 		drawTexturedModalRect(posX, posY + 50, 0, 0, 256, 256);
-		//System.out.println(mc.fontRenderer.FONT_HEIGHT);
 		
 		if(this.page == 0)
 			mc.fontRenderer.drawStringWithShadow("Choose a faction ", posX + 20, posY + 59, Helper.hexToInt("FFFFFF"));

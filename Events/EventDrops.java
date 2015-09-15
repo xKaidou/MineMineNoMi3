@@ -22,14 +22,9 @@ public class EventDrops
 		
 		if(item instanceof Ability || item instanceof Rokushiki || item instanceof Haki)
 		{
-			event.setCanceled(true);
-			
+			event.setCanceled(true);			
 			if(event.player instanceof EntityPlayer)
-			{
-				EntityPlayer player = (EntityPlayer)event.player;
-				
-				player.inventory.addItemStackToInventory(new ItemStack(Helper.abilities.get(Helper.abilities.indexOf(item))));
-			}
+				event.player.inventory.addItemStackToInventory(new ItemStack(item));
 		}
 	}
 	

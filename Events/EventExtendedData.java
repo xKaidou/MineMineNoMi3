@@ -35,7 +35,7 @@ public class EventExtendedData
 	{
 		if (event.entity instanceof EntityPlayer && !event.entity.worldObj.isRemote)
 			if(Config.allowDebugMode_actual)
-				Helper.sendText((EntityPlayer) event.entity, "Debug Mode is ON");	
+				Helper.sendText((EntityPlayer) event.entity, "Dev Mode is ON");	
 		
 		if (!event.entity.worldObj.isRemote && event.entity instanceof EntityLivingBase)
 			MainExtendedEntity.get((EntityLivingBase) event.entity);

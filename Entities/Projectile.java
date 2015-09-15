@@ -15,13 +15,13 @@ import MineMineNoMi3.Helper;
 import MineMineNoMi3.Utils.DatabaseEvents;
 import MineMineNoMi3.Utils.DatabaseParticles;
 import MineMineNoMi3.Utils.DatabaseStructures;
-import MineMineNoMi3.Utils.EnumAbility;
+import MineMineNoMi3.Utils.AbilityAttribute;
 
 public class Projectile extends EntityThrowable
 {
 	
 	public int ticks, maxticks;
-	public EnumAbility proj;
+	public AbilityAttribute proj;
 	
 	public Projectile(World par1World)
 	{
@@ -38,7 +38,7 @@ public class Projectile extends EntityThrowable
 		super(par1World, par2, par4, par6);
 	}
 
-	public Projectile(World par1World, EntityPlayer par3EntityPlayer, EnumAbility proj)
+	public Projectile(World par1World, EntityPlayer par3EntityPlayer, AbilityAttribute proj)
 	{
 		super(par1World, par3EntityPlayer);
 		this.proj = proj;
@@ -62,7 +62,7 @@ public class Projectile extends EntityThrowable
 		}
 	}
 	
-	public EnumAbility getAbility()
+	public AbilityAttribute getAbility()
 	{
 		return this.proj;
 	}
@@ -105,88 +105,57 @@ public class Projectile extends EntityThrowable
 	{
 		if(this.proj != null)
 		{
-			if (hit.entityHit != null)
+			if (hit.entityHit != null && hit.entityHit instanceof EntityLivingBase)
 			{    
 				EntityLivingBase entityHit = ((EntityLivingBase)hit.entityHit);
 				
-				if(!(this.proj.getEntitySideEffect() <= 0))
-					entityHit.addPotionEffect(new PotionEffect(this.proj.getEntitySideEffect(), this.proj.getItemTicks()*2, this.proj.getEntityDmg()));
+				/*if(!(this.proj.getEntitySideEffect() <= 0))
+					entityHit.addPotionEffect(new PotionEffect(this.proj.getEntitySideEffect(), this.proj.getItemTicks()/2, this.proj.getEntityDmg()/10));*/
 				
-				if(this.proj.getEntityAttr() != null)
+				for(int i = 0; i < this.proj.getEntityAttr().length; i++)
 				{
-					for(int i = 0; i < this.proj.getEntityAttr().length; i++)
-					{
-						String attr = this.proj.getEntityAttr()[i];
+					String attr = this.proj.getEntityAttr()[i];
 						
-						if(attr.equals("create_iceball"))
-							DatabaseStructures.createIceBall(entityHit);	
-
-						if(attr.contains("on_hit_proj_"))
-						{
-							String effect = attr.substring(12);
-							
-							if(effect.equals("fire"))
-								entityHit.setFire(this.proj.getItemTicks());
-							
-							if(effect.equals("bind"))
-								entityHit.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, this.proj.getItemTicks()/2, 10));
-							
-							if(effect.contains("launch_"))
-							{
-								int power = Integer.parseInt(attr.substring("on_hit_proj_launch_".length()));
-								int dir = MathHelper.floor_double(entityHit.rotationYaw * 4.0F / 360.0F + 0.5D) & 0x3;
-								if(dir==1)
-									entityHit.motionX += power;
-								else if(dir==2)
-									entityHit.motionX -= power; 
-								else if(dir==3)
-									entityHit.motionZ += power;
-								else if(dir==4)  
-									entityHit.motionZ -= power;
-							}
-						}
-					}
+					DatabaseEvents.event(attr, this);	
+					DatabaseStructures.creo(attr, this);
 				}
-
+				
 				hit.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), this.proj.getEntityDmg());
 			}
 			if (!this.worldObj.isRemote)
 			{
-				
-				if(this.proj.getEntityAttr() != null)
+				for(int i = 0; i < this.proj.getEntityAttr().length; i++)
 				{
-					for(int i = 0; i < this.proj.getEntityAttr().length; i++)
-					{
-						String attr = this.proj.getEntityAttr()[i];
-						
-						if(attr.equals("create_iceball"))
-							DatabaseStructures.createIceBall(this);					
+					String attr = this.proj.getEntityAttr()[i];
+					
+					DatabaseEvents.event(attr, this);
+					DatabaseStructures.creo(attr, this);
+						/*if(attr.equals("create_iceball"))
+							DatabaseStructures.createIceBall(this);	
+						if(attr.equals("create_firecross"))
+							DatabaseStructures.createFireCross(this);	
 						if(attr.equals("create_fireblock"))
 							this.worldObj.setBlock(hit.blockX, hit.blockY + 1, hit.blockZ, Blocks.fire);							
 						if(attr.equals("create_iceblock"))
 							this.worldObj.setBlock(hit.blockX, hit.blockY + 1, hit.blockZ, Blocks.packed_ice);				
 						if(attr.equals("create_lavablock"))
-							this.worldObj.setBlock(hit.blockX, hit.blockY + 1, hit.blockZ, Blocks.flowing_lava);						
+							this.worldObj.setBlock(hit.blockX, hit.blockY + 1, hit.blockZ, Blocks.flowing_lava);		
 						if(attr.equals("event_teleport"))
 							DatabaseEvents.eventTeleport(this);											
 						
-						if(attr.contains("destroy_"))
+						if(attr.contains("destroy=_"))
 						{
-							int radius = Integer.parseInt(attr.substring(8));
-							if(radius > 0)
-								Helper.explosion(this, radius, false, false);						
-						}
+							int radius = Integer.parseInt(attr.substring(9));
+							this.worldObj.newExplosion(this, this.posX, this.posY, this.posZ, radius, false, Config.allowGriefing_actual);
+						}	
 						
-						
-					}
+						if(attr.contains("destroy+_"))
+						{
+							int radius = Integer.parseInt(attr.substring(9));
+							this.worldObj.newExplosion(this, this.posX, this.posY, this.posZ, radius, true, Config.allowGriefing_actual);
+						}*/
 				}
-				
-				if(this.proj.getEntityExplosion() > 0)
-					Helper.explosion(this, this.proj.getEntityExplosion(), true, Config.allowGriefing_actual);
-				
-				if(this.proj.getEntityExplosion() != 0 && this.proj.getEntityExplosion() < 0)
-					Helper.explosion(this, this.proj.getEntityExplosion(), true, false);
-				
+
 				this.setDead();
 			}    
 		}       

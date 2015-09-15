@@ -1,10 +1,7 @@
 package MineMineNoMi3.Items;
 
-import java.util.Iterator;
-import java.util.List;
 import java.util.Random;
 
-import net.minecraft.block.BlockDirt;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -15,18 +12,14 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
 import MineMineNoMi3.MainExtendedEntity;
 import MineMineNoMi3.MainExtendedPlayer;
-import MineMineNoMi3.Blocks.TileEntities.TileEntityOpe;
 import MineMineNoMi3.Entities.Projectile;
-import MineMineNoMi3.Entities.Base.INoShadow;
 import MineMineNoMi3.Lists.ListMisc;
-import MineMineNoMi3.Lists.ListPotions;
-import MineMineNoMi3.Utils.EnumAbility;
+import MineMineNoMi3.Utils.AbilityAttribute;
+import MineMineNoMi3.Utils.IOnePieceMob;
 
 import com.google.common.collect.Multimap;
 
@@ -49,11 +42,12 @@ public class ItemCoreSword extends ItemSword
 
 	public boolean itemInteractionForEntity(ItemStack itemStack, EntityPlayer player, EntityLivingBase entity)
 	{	
-		if(!player.worldObj.isRemote && player.getCurrentEquippedItem().getItem()==ListMisc.Scissors && player.isPotionActive(ListPotions.kagekage))
+		MainExtendedPlayer props = MainExtendedPlayer.get(player);
+		if(!player.worldObj.isRemote && player.getCurrentEquippedItem().getItem()==ListMisc.Scissors && props.getUsedFruit().equals("kagekage"))
 		{
 			MainExtendedEntity propz = MainExtendedEntity.get(entity);
 			
-			if (!(entity instanceof INoShadow) && propz.hasShadow()) 
+			if ((!(entity instanceof IOnePieceMob) && ((IOnePieceMob)entity).hasShadow()) && propz.hasShadow()) 
 	    	{
 	    		Random rand = new Random();
 	    		EntityItem shadow = entity.entityDropItem(new ItemStack(ListMisc.Shadow), 1.0F);
@@ -81,11 +75,11 @@ public class ItemCoreSword extends ItemSword
 			itemStack.stackTagCompound.setInteger("use", this.use);
 		}
     	
-    	if(player.isPotionActive(ListPotions.opeope) && itemStack.stackTagCompound.getInteger("use") == 0)
+    	if(props.getUsedFruit().equals("opeope") && itemStack.stackTagCompound.getInteger("use") == 0)
     	{
-    		world.spawnEntityInWorld(new Projectile(world, player, EnumAbility.OPEOPESLASH));	
+    		world.spawnEntityInWorld(new Projectile(world, player, AbilityAttribute.OPEOPESLASH));	
 			itemStack.stackTagCompound.setInteger("use", 1);
-			itemStack.stackTagCompound.setInteger("ticks", EnumAbility.OPEOPESLASH.getItemTicks());
+			itemStack.stackTagCompound.setInteger("ticks", AbilityAttribute.OPEOPESLASH.getItemTicks());
     	}
     	
     	return itemStack;
