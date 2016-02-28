@@ -28,7 +28,7 @@ public class Helper
 	public static List<Item> logias = new ArrayList();
 	public static List<Item> dfsInWorld = new ArrayList();
 	public static List<Object[]> customDFs = new ArrayList();
-	public static final int MAX_DORIKI = 10000;
+	public static final int MAX_DORIKI = 6000000;
 	public static final int MAX_BOUNTY = 999999999;
 	public static final int MAX_BELLY = 999999999;
 
